@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实时数据中心 - 紫金矿业集团</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, var(--light-bg) 0%, #f8f6f2 100%);
+    }
+
+    .dashboard-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 40px 20px;
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .dashboard-header h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .status-bar {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .status-item {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 12px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #28a745;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      padding: 30px 20px;
+    }
+
+    .metric-card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      border-top: 4px solid var(--accent-color);
+    }
+
+    .metric-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .metric-icon {
+      font-size: 32px;
+      color: var(--accent-color);
+      margin-bottom: 12px;
+    }
+
+    .metric-label {
+      font-size: 13px;
+      color: #999;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 8px;
+    }
+
+    .metric-change {
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .metric-change.up {
+      color: #28a745;
+    }
+
+    .metric-change.down {
+      color: #dc3545;
+    }
+
+    /* 数据表格 */
+    .data-table-section {
+      padding: 30px 20px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .data-table {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .table-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      gap: 15px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .table-row {
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      gap: 15px;
+      border-bottom: 1px solid #eee;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .table-row:last-child {
+      border-bottom: none;
+    }
+
+    .table-row:hover {
+      background: var(--light-bg);
+    }
+
+    .commodity-name {
+      font-weight: 600;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .commodity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+    }
+
+    .price-cell {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .change-cell {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .change-up {
+      color: #28a745;
+    }
+
+    .change-down {
+      color: #dc3545;
+    }
+
+    /* 热力图 */
+    .heatmap-section {
+      padding: 30px 20px;
+    }
+
+    .heatmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+    }
+
+    .heatmap-item {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .heatmap-item.hot-up {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+    }
+
+    .heatmap-item.hot-down {
+      background: linear-gradient(135deg, #dc3545, #fd7e14);
+      color: white;
+    }
+
+    .heatmap-item.neutral {
+      background: linear-gradient(135deg, #0066cc, #0099ff);
+      color: white;
+    }
+
+    .heatmap-name {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .heatmap-percent {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* 时间选择器 */
+    .time-selector {
+      display: flex;
+      gap: 8px;
+      padding: 15px 20px;
+      background: white;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .time-btn {
+      padding: 8px 16px;
+      background: var(--light-bg);
+      border: none;
+      border-radius: 20px;
+      color: #666;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .time-btn.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    /* 图表卡片 */
+    .chart-card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .mini-chart {
+      height: 200px;
+      background: var(--light-bg);
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      padding: 10px;
+      gap: 5px;
+      margin-top: 15px;
+    }
+
+    .chart-bar {
+      flex: 1;
+      background: linear-gradient(180deg, var(--accent-color), #f0d56f);
+      border-radius: 6px 6px 0 0;
+      transition: all 0.3s ease;
+    }
+
+    .chart-bar:hover {
+      opacity: 0.8;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .table-header,
+      .table-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .table-header {
+        display: none;
+      }
+
+      .table-row::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #999;
+        font-size: 12px;
+      }
+
+      .dashboard-header h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<header>
+  <div class="navbar-container">
+    <a href="index.html" class="logo">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=50&h=50&fit=crop" alt="logo">
+      <span class="logo-text">紫金矿业集团</span>
+    </a>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="about.html">关于我们</a>
+      <a href="projects.html">投资项目</a>
+      <a href="trading.html">交易中心</a>
+      <a href="data-center.html">数据中心</a>
+      <a href="news.html">新闻中心</a>
+      <a href="contacts.html">联系我们</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 顶部banner -->
+<div class="dashboard-header">
+  <h1>
+    <i class="fas fa-chart-pie" style="margin-right: 12px; color: var(--accent-color);"></i>
+    实时数据中心
+  </h1>
+  <p style="margin: 0; font-size: 15px; opacity: 0.95;">全球矿业市场 • 实时监控 • 智能分析</p>
+  
+  <div class="status-bar">
+    <div class="status-item">
+      <span class="status-dot"></span>
+      实时更新中
+    </div>
+    <div class="status-item">
+      <i class="fas fa-server" style="color: #28a745;"></i>
+      服务正常
+    </div>
+    <div class="status-item">
+      <i class="fas fa-globe" style="color: #0066cc;"></i>
+      全球58个数据源
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock" style="font-size: 13px;"></i>
+      最后更新: 刚刚
+    </div>
+  </div>
+</div>
+
+<!-- 关键指标 -->
+<div class="metrics-grid">
+  <div class="metric-card">
+    <div class="metric-icon">📈</div>
+    <div class="metric-label">全球市值</div>
+    <div class="metric-value">12.8T</div>
+    <div class="metric-change up">
+      <i class="fas fa-arrow-up"></i>
+      <span>+3.2%</span>
+    </div>
+  </div>
+
+  <div class="metric-card" style="border-top-color: #28a745;">
+    <div class="metric-icon" style="color: #28a745;">🏆</div>
+    <div class="metric-label">紫金矿业市值</div>
+    <div class="metric-value">2,480B</div>
+    <div class="metric-change up">
+      <i class="fas fa-arrow-up"></i>
+      <span>+5.6%</span>
+    </div>
+  </div>
+
+  <div class="metric-card" style="border-top-color: #0066cc;">
+    <div class="metric-icon" style="color: #0066cc;">⛏️</div>
+    <div class="metric-label">全球矿产产量</div>
+    <div class="metric-value">5.2B吨</div>
+    <div class="metric-change down">
+      <i class="fas fa-arrow-down"></i>
+      <span>-1.2%</span>
+    </div>
+  </div>
+
+  <div class="metric-card" style="border-top-color: #fd7e14;">
+    <div class="metric-icon" style="color: #fd7e14;">💱</div>
+    <div class="metric-label">美元指数</div>
+    <div class="metric-value">104.25</div>
+    <div class="metric-change down">
+      <i class="fas fa-arrow-down"></i>
+      <span>-0.35%</span>
+    </div>
+  </div>
+
+  <div class="metric-card" style="border-top-color: #17a2b8;">
+    <div class="metric-icon" style="color: #17a2b8;">🌍</div>
+    <div class="metric-label">活跃交易对</div>
+    <div class="metric-value">1,204</div>
+    <div class="metric-change up">
+      <i class="fas fa-arrow-up"></i>
+      <span>+12</span>
+    </div>
+  </div>
+
+  <div class="metric-card" style="border-top-color: #6f42c1;">
+    <div class="metric-icon" style="color: #6f42c1;">📊</div>
+    <div class="metric-label">日均成交量</div>
+    <div class="metric-value">185.6B</div>
+    <div class="metric-change up">
+      <i class="fas fa-arrow-up"></i>
+      <span>+2.8%</span>
+    </div>
+  </div>
+</div>
+
+<!-- 时间选择器 -->
+<div style="padding: 0 20px;">
+  <div class="time-selector">
+    <button class="time-btn active">1小时</button>
+    <button class="time-btn">4小时</button>
+    <button class="time-btn">1天</button>
+    <button class="time-btn">1周</button>
+    <button class="time-btn">1月</button>
+    <button class="time-btn">全部</button>
+  </div>
+</div>
+
+<!-- 商品行情表 -->
+<div class="data-table-section">
+  <div class="section-title">
+    <i class="fas fa-list"></i>
+    商品行情一览表
+  </div>
+
+  <div class="data-table">
+    <div class="table-header">
+      <div>商品名称</div>
+      <div>现价</div>
+      <div>涨跌幅</div>
+      <div>成交量</div>
+      <div>市场</div>
+    </div>
+
+    <div class="table-row">
+      <div class="commodity-name">
+        <div class="commodity-icon" style="background: linear-gradient(135deg, #d4af37, #f0d56f);">👑</div>
+        <span>国际现货黄金</span>
+      </div>
+      <div class="price-cell">2045.80 USD</div>
+      <div class="change-cell change-up">
+        <i class="fas fa-arrow-up"></i>
+        +0.76%
+      </div>
+      <div>2.5M oz</div>
+      <div>伦敦</div>
+    </div>
+
+    <div class="table-row">
+      <div class="commodity-name">
+        <div class="commodity-icon" style="background: linear-gradient(135deg, #c0c0c0, #e8e8e8);">💎</div>
+        <span>白银现货价格</span>
+      </div>
+      <div class="price-cell">24.52 USD</div>
+      <div class="change-cell change-down">
+        <i class="fas fa-arrow-down"></i>
+        -1.13%
+      </div>
+      <div>18.2M oz</div>
+      <div>纽约</div>
+    </div>
+
+    <div class="table-row">
+      <div class="commodity-name">
+        <div class="commodity-icon" style="background: linear-gradient(135deg, #cd7f32, #d4905a);">🔨</div>
+        <span>伦敦金属交易所铜</span>
+      </div>
+      <div class="price-cell">9285.50 USD</div>
+      <div class="change-cell change-up">
+        <i class="fas fa-arrow-up"></i>
+        +1.37%
+      </div>
+      <div>1.2M吨</div>
+      <div>伦敦</div>
+    </div>
+
+    <div class="table-row">
+      <div class="commodity-name">
+        <div class="commodity-icon" style="background: linear-gradient(135deg, #0066cc, #0099ff);">⚡</div>
+        <span>碳酸锂价格</span>
+      </div>
+      <div class="price-cell">185000 CNY</div>
+      <div class="change-cell change-up">
+        <i class="fas fa-arrow-up"></i>
+        +1.37%
+      </div>
+      <div>850吨</div>
+      <div>中国</div>
+    </div>
+
+    <div class="table-row">
+      <div class="commodity-name">
+        <div class="commodity-icon" style="background: linear-gradient(135deg, #6f42c1, #9966ff);">💰</div>
+        <span>钴矿价格指数</span>
+      </div>
+      <div class="price-cell">28.5 USD</div>
+      <div class="change-cell change-up">
+        <i class="fas fa-arrow-up"></i>
+        +2.15%
+      </div>
+      <div>2.8M吨</div>
+      <div>伦敦</div>
+    </div>
+  </div>
+</div>
+
+<!-- 热力图 -->
+<div class="heatmap-section">
+  <div class="section-title">
+    <i class="fas fa-fire"></i>
+    商品涨跌热力图
+  </div>
+
+  <div class="heatmap-grid">
+    <div class="heatmap-item hot-up">
+      <div class="heatmap-name">钯金</div>
+      <div class="heatmap-percent">+3.25%</div>
+    </div>
+    <div class="heatmap-item hot-up">
+      <div class="heatmap-name">铂金</div>
+      <div class="heatmap-percent">+2.15%</div>
+    </div>
+    <div class="heatmap-item hot-up">
+      <div class="heatmap-name">铜</div>
+      <div class="heatmap-percent">+1.37%</div>
+    </div>
+    <div class="heatmap-item hot-up">
+      <div class="heatmap-name">黄金</div>
+      <div class="heatmap-percent">+0.76%</div>
+    </div>
+    <div class="heatmap-item hot-down">
+      <div class="heatmap-name">白银</div>
+      <div class="heatmap-percent">-1.13%</div>
+    </div>
+    <div class="heatmap-item neutral">
+      <div class="heatmap-name">原油</div>
+      <div class="heatmap-percent">-0.32%</div>
+    </div>
+    <div class="heatmap-item hot-up">
+      <div class="heatmap-name">锂矿</div>
+      <div class="heatmap-percent">+1.37%</div>
+    </div>
+    <div class="heatmap-item hot-up">
+      <div class="heatmap-name">钴矿</div>
+      <div class="heatmap-percent">+2.15%</div>
+    </div>
+  </div>
+</div>
+
+<!-- 市场分析图表 -->
+<div style="padding: 0 20px;">
+  <div class="chart-card">
+    <div style="font-size: 16px; font-weight: 600; color: var(--primary-color); margin-bottom: 15px;">
+      <i class="fas fa-chart-bar" style="margin-right: 8px; color: var(--accent-color);"></i>
+      24小时成交量趋势
+    </div>
+    <div class="mini-chart">
+      <div class="chart-bar" style="height: 45%;"></div>
+      <div class="chart-bar" style="height: 65%;"></div>
+      <div class="chart-bar" style="height: 52%;"></div>
+      <div class="chart-bar" style="height: 78%;"></div>
+      <div class="chart-bar" style="height: 88%;"></div>
+      <div class="chart-bar" style="height: 92%;"></div>
+      <div class="chart-bar" style="height: 85%;"></div>
+      <div class="chart-bar" style="height: 72%;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 底部footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>数据服务</h4>
+      <p><a href="#" style="color: inherit; text-decoration: none;">API接口</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>市场信息</h4>
+      <p><a href="trading.html" style="color: inherit; text-decoration: none;">交易中心</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>联系我们</h4>
+      <p>Email: data@zijin.com</p>
+    </div>
+    <div class="footer-section">
+      <h4>快速链接</h4>
+      <p><a href="index.html" style="color: inherit; text-decoration: none;">首页</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 紫金矿业集团有限公司. 版权所有
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/market-api.js"></script>
+<script>
+  // 时间按钮交互
+  document.querySelectorAll('.time-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      console.log('切换时间周期:', this.textContent);
+    });
+  });
+
+  // 监听市场数据更新
+  document.addEventListener('marketDataUpdate', function(event) {
+    const { quotes } = event.detail;
+    console.log('[数据中心] 接收到实时数据更新:', quotes);
+  });
+</script>
+
+</body>
+</html>

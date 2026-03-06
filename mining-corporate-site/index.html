@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>紫金矿业集团 - 全球领先的矿业公司</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<!-- Web3 3D区块链背景 -->
+<div class="blockchain-bg">
+  <div class="blockchain-cube" style="top: 10%; left: 5%;"><div class="cube-face">◆</div></div>
+  <div class="blockchain-cube" style="top: 20%; right: 8%; animation-delay: 5s;"><div class="cube-face">◈</div></div>
+  <div class="blockchain-cube" style="bottom: 15%; left: 15%; animation-delay: 10s;"><div class="cube-face">◇</div></div>
+  <div class="blockchain-cube" style="bottom: 25%; right: 10%; animation-delay: 15s;"><div class="cube-face">◆</div></div>
+</div>
+
+<!-- 导航栏 -->
+<header>
+  <div class="navbar-container">
+    <a href="index.html" class="logo">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=50&h=50&fit=crop" alt="logo">
+      <span class="logo-text">紫金矿业集团</span>
+    </a>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="wallet.html">Web3钱包</a>
+      <a href="dapp-browser.html">DApp浏览器</a>
+      <a href="multi-chain.html">多链管理</a>
+      <a href="dao-governance.html">DAO治理</a>
+      <a href="startup.html">生态孵化</a>
+      <a href="whitepaper.html" style="color: #00ff88;">🔥 白皮书</a>
+      <a href="tokenomics-detail.html">Tokenomics</a>
+      <a href="roadmap-detail.html">路线图</a>
+      <a href="contacts.html">联系我们</a>
+      <button class="wallet-btn" onclick="connectWallet()">
+        <i class="fas fa-wallet" style="margin-right: 8px;"></i>
+        连接钱包
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Banner -->
+<section class="banner">
+  <div class="banner-content">
+    <h1>🌐 GOLD Web3 超级入口</h1>
+    <p>统一的Web3生态平台 · 一个钱包进入整个区块链世界</p>
+    <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+      <a href="wallet.html" class="btn" style="background: linear-gradient(135deg, #00d9ff, #1e3a8a);">
+        <i class="fas fa-lock"></i> Web3钱包
+      </a>
+      <a href="dapp-browser.html" class="btn" style="background: linear-gradient(135deg, #1e3a8a, #0a0f1f); border: 2px solid #00d9ff;">
+        <i class="fas fa-cubes"></i> DApp浏览器
+      </a>
+      <a href="dao-governance.html" class="btn" style="background: linear-gradient(135deg, #0a0f1f, #1e3a8a); border: 2px solid #00d9ff;">
+        <i class="fas fa-vote-yea"></i> DAO治理
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 核心业务 -->
+<section class="section" id="explore">
+  <h2 class="section-title">Web3 五大支柱</h2>
+  <div class="grid grid-5" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));;">
+    <div class="card" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(30, 58, 138, 0.1)); border-left: 4px solid #00d9ff;">
+      <div style="font-size: 2.5rem; margin-bottom: 15px;">🔐</div>
+      <h3>用户资产自主</h3>
+      <p>非托管钱包，私钥由用户掌控，安全透明。支持硬件钱包、多签方案。</p>
+      <a href="wallet.html" style="color: #00d9ff; text-decoration: none;">了解更多 →</a>
+    </div>
+    <div class="card" style="background: linear-gradient(135deg, rgba(30, 58, 138, 0.1), rgba(0, 217, 255, 0.1)); border-left: 4px solid #00d9ff;">
+      <div style="font-size: 2.5rem; margin-bottom: 15px;">⛓️</div>
+      <h3>多链聚合</h3>
+      <p>一个钱包管理6大公链资产，无缝跨链转账，统一资产视图。</p>
+      <a href="multi-chain.html" style="color: #00d9ff; text-decoration: none;">了解更多 →</a>
+    </div>
+    <div class="card" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(30, 58, 138, 0.1)); border-left: 4px solid #00d9ff;">
+      <div style="font-size: 2.5rem; margin-bottom: 15px;">🌐</div>
+      <h3>应用聚合</h3>
+      <p>DeFi、NFT、GameFi、DAO一站式浏览，发现最优DApp，降低使用门槛。</p>
+      <a href="dapp-browser.html" style="color: #00d9ff; text-decoration: none;">了解更多 →</a>
+    </div>
+    <div class="card" style="background: linear-gradient(135deg, rgba(30, 58, 138, 0.1), rgba(0, 217, 255, 0.1)); border-left: 4px solid #00d9ff;">
+      <div style="font-size: 2.5rem; margin-bottom: 15px;">🎯</div>
+      <h3>社区治理</h3>
+      <p>DAO投票、提案、资金管理，用户驱动平台发展，权力下放。</p>
+      <a href="dao-governance.html" style="color: #00d9ff; text-decoration: none;">了解更多 →</a>
+    </div>
+    <div class="card" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(30, 58, 138, 0.1)); border-left: 4px solid #00d9ff;">
+      <div style="font-size: 2.5rem; margin-bottom: 15px;">🚀</div>
+      <h3>生态激励</h3>
+      <p>项目孵化、空投、赏金、流动性挖矿，多种收益机制，激励参与。</p>
+      <a href="startup.html" style="color: #00d9ff; text-decoration: none;">了解更多 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Tokenomics 代币经济学 ========== -->
+<section class="section" id="tokenomics" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(30, 58, 138, 0.05));">
+  <h2 class="section-title" style="animation: neon-flicker 2s infinite;">💎 GT Token - Web3 超级入口的治理通证</h2>
+  
+  <div class="grid grid-2" style="max-width: 1200px; margin: 0 auto;">
+    <!-- Token 经济模型 -->
+    <div class="card" style="background: rgba(15, 23, 41, 0.8); border: 2px solid rgba(0, 217, 255, 0.3); animation: glow-pulse 3s ease-in-out infinite;">
+      <h4 style="color: #00d9ff; margin-bottom: 20px;">🪙 Token核心指标</h4>
+      <div style="line-height: 2.5; color: #a5b4fc;">
+        <p><strong style="color: #00d9ff;">代币符号：</strong> GT</p>
+        <p><strong style="color: #00d9ff;">总供应量：</strong> 2,000,000,000 GT</p>
+        <p><strong style="color: #00d9ff;">初始价格：</strong> $0.02 USDT</p>
+        <p><strong style="color: #00d9ff;">当前价格：</strong> $0.18 USDT ⬆️</p>
+        <p><strong style="color: #00d9ff;">市值排名：</strong> Top 50</p>
+        <p><strong style="color: #00d9ff;">日均交易量：</strong> $2.3B+</p>
+      </div>
+      <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid rgba(0, 217, 255, 0.2);">
+        <h5 style="color: #00d9ff; margin-bottom: 15px;">💰 GT 用途</h5>
+        <ul style="color: #a5b4fc; list-style: none; padding: 0;">
+          <li>✓ DAO 投票权 & 治理</li>
+          <li>✓ 流动性挖矿奖励</li>
+          <li>✓ DApp 交易手续费折扣</li>
+          <li>✓ 质押生成收益</li>
+          <li>✓ 生态基金分配投票权</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 代币分配 -->
+    <div style="padding: 30px;">
+      <div style="background: rgba(0, 217, 255, 0.1); border-left: 4px solid #00d9ff; padding: 20px; margin-bottom: 20px; border-radius: 4px; animation: float-up 0.8s ease-out;">
+        <h4 style="color: #00d9ff; margin-bottom: 15px;">🔒 代币分配比例</h4>
+        <div style="color: #a5b4fc; line-height: 2.2;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span>👥 社区空投 & 奖励</span>
+            <span style="color: #00d9ff; font-weight: bold;">30% (6亿)</span>
+          </div>
+          <div style="background: rgba(0, 217, 255, 0.2); height: 8px; border-radius: 4px; margin-bottom: 15px;"></div>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span>🏛️ 生态基金 (开发)</span>
+            <span style="color: #00d9ff; font-weight: bold;">25% (5亿)</span>
+          </div>
+          <div style="background: rgba(0, 217, 255, 0.2); height: 8px; border-radius: 4px; margin-bottom: 15px;"></div>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span>💼 团队与顾问</span>
+            <span style="color: #00d9ff; font-weight: bold;">20% (4亿)</span>
+          </div>
+          <div style="background: rgba(0, 217, 255, 0.2); height: 8px; border-radius: 4px; margin-bottom: 15px;"></div>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span>🔄 流动性挖矿</span>
+            <span style="color: #00d9ff; font-weight: bold;">15% (3亿)</span>
+          </div>
+          <div style="background: rgba(0, 217, 255, 0.2); height: 8px; border-radius: 4px; margin-bottom: 15px;"></div>
+          
+          <div style="display: flex; justify-content: space-between;">
+            <span>💳 早期投资者</span>
+            <span style="color: #00d9ff; font-weight: bold;">10% (2亿)</span>
+          </div>
+          <div style="background: rgba(0, 217, 255, 0.2); height: 8px; border-radius: 4px;"></div>
+        </div>
+      </div>
+
+      <div style="background: rgba(30, 58, 138, 0.2); border-left: 4px solid #3b5998; padding: 20px; border-radius: 4px; animation: float-up 1.0s ease-out;">
+        <h4 style="color: #5eefff; margin-bottom: 10px;">⏰ 释放时间表</h4>
+        <ul style="color: #a5b4fc; line-height: 2; font-size: 0.9rem;">
+          <li>👥 社区: 即时 + 6个月线性</li>
+          <li>🏛️ 生态基金: 2年线性释放</li>
+          <li>💼 团队: 2年锁期 + 2年线性</li>
+          <li>🔄 LP: 第一年加倍产出</li>
+          <li>💳 投资者: 3个月 + 18个月线性</li>
+        </ul>
+      </div>
+
+      <div style="background: rgba(0, 217, 255, 0.1); border-left: 4px solid #00d9ff; padding: 20px; margin-top: 20px; border-radius: 4px; animation: float-up 1.2s ease-out;">
+        <h4 style="color: #00d9ff; margin-bottom: 10px;">📊 质押生成收益</h4>
+        <p style="color: #a5b4fc; margin-bottom: 8px;">质押3个月: <span style="color: #00d9ff; font-weight: bold;">6% APY</span></p>
+        <p style="color: #a5b4fc; margin-bottom: 8px;">质押6个月: <span style="color: #00d9ff; font-weight: bold;">12% APY</span></p>
+        <p style="color: #a5b4fc;">质押12个月: <span style="color: #00d9ff; font-weight: bold;">25% APY</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Roadmap 路线图 ========== -->
+<section class="section" id="roadmap">
+  <h2 class="section-title" style="animation: neon-flicker 2s infinite;">🗺️ Roadmap - 通往Web3超级入口的征程</h2>
+  
+  <div style="max-width: 1000px; margin: 0 auto; position: relative; padding: 50px 0;">
+    <!-- 时间线中线 -->
+    <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, #00d9ff, #1e3a8a); transform: translateX(-50%);"></div>
+
+    <!-- Phase 1: 基础建设 -->
+    <div style="margin-bottom: 50px; animation: slide-in-left 1s ease-out;">
+      <div style="text-align: right; width: 48%; margin-right: 2%;">
+        <div class="card" style="background: rgba(0, 217, 255, 0.1); border: 2px solid #00d9ff; text-align: left;">
+          <h4 style="color: #00d9ff; margin-bottom: 10px;">✅ Phase 1 - 钱包 & DEX (已完成)</h4>
+          <ul style="color: #a5b4fc; font-size: 0.9rem;">
+            <li>✓ Web3钱包上线 (6链支持)</li>
+            <li>✓ DEX交易系统</li>
+            <li>✓ MetaMask集成</li>
+            <li>✓ 安全审计完成</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2: 生态扩展 -->
+    <div style="margin-bottom: 50px; animation: slide-in-right 1.2s ease-out;">
+      <div style="text-align: left; width: 48%; margin-left: 52%;">
+        <div class="card" style="background: rgba(30, 58, 138, 0.2); border: 2px solid #3b5998; text-align: left;">
+          <h4 style="color: #5eefff; margin-bottom: 10px;">🚀 Phase 2 - 应用聚合 (进行中)</h4>
+          <ul style="color: #a5b4fc; font-size: 0.9rem;">
+            <li>🔜 DApp浏览器 (50+ DApp)</li>
+            <li>🔜 跨链桥接 (4大桥)</li>
+            <li>🔜 NFT市场集成</li>
+            <li>🔜 用户突破 100万</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3: DAO治理 -->
+    <div style="margin-bottom: 50px; animation: slide-in-left 1.4s ease-out;">
+      <div style="text-align: right; width: 48%; margin-right: 2%;">
+        <div class="card" style="background: rgba(0, 217, 255, 0.1); border: 2px solid #00d9ff; text-align: left;">
+          <h4 style="color: #00d9ff; margin-bottom: 10px;">📊 Phase 3 - DAO & 治理 (Q2 2024)</h4>
+          <ul style="color: #a5b4fc; font-size: 0.9rem;">
+            <li>📍 DAO投票系统上线</li>
+            <li>📍 治理提案机制</li>
+            <li>📍 生态基金管理</li>
+            <li>📍 GitCoin集成</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4: CEX & 全球扩展 -->
+    <div style="margin-bottom: 50px; animation: slide-in-right 1.6s ease-out;">
+      <div style="text-align: left; width: 48%; margin-left: 52%;">
+        <div class="card" style="background: rgba(30, 58, 138, 0.2); border: 2px solid #3b5998; text-align: left;">
+          <h4 style="color: #5eefff; margin-bottom: 10px;">🌍 Phase 4 - CEX & 扩展 (Q3 2024)</h4>
+          <ul style="color: #a5b4fc; font-size: 0.9rem;">
+            <li>🔮 币安/OKX上线</li>
+            <li>🔮 期权交易上线</li>
+            <li>🔮 5百万+ 全球用户</li>
+            <li>🔮 40+ 国家部署</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 5: 生态激励 & 革新 -->
+    <div style="animation: slide-in-left 1.8s ease-out;">
+      <div style="text-align: right; width: 48%; margin-right: 2%;">
+        <div class="card" style="background: rgba(0, 217, 255, 0.1); border: 2px solid #00d9ff; text-align: left;">
+          <h4 style="color: #00d9ff; margin-bottom: 10px;">🎯 Phase 5 - 生态激励 (Q4 2024+)</h4>
+          <ul style="color: #a5b4fc; font-size: 0.9rem;">
+            <li>🚀 Launchpad完整功能</li>
+            <li>🚀 100+ 生态项目孵化</li>
+            <li>🚀 10亿+ 空投总额</li>
+            <li>🚀 Web2向Web3过度的典范</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+            <li>🌍 多语言支持</li>
+            <li>🌍 DAO治理体系</li>
+            <li>🌍 主网发布</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== NFT 展示 ========== -->
+<section class="section" id="nft" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(30, 58, 138, 0.05));">
+  <h2 class="section-title" style="animation: neon-flicker 2s infinite;">🎨 Web3 NFT 生态</h2>
+
+  <div class="grid grid-3" style="margin-bottom: 40px;">
+    <!-- OpenSea -->
+    <div class="card" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(30, 58, 138, 0.1)); border-left: 4px solid #00d9ff;">
+      <div style="font-size: 2.5rem; margin-bottom: 15px;">🌊</div>
+      <h4 style="color: #00d9ff; margin-bottom: 10px;">OpenSea</h4>
+      <p style="color: #a5b4fc; margin-bottom: 15px;">最大NFT交易市场，支持50+区块链，交易量$750M+</p>
+      <div style="background: rgba(0, 217, 255, 0.1); padding: 15px; border-radius: 4px; margin-bottom: 15px;">
+        <p style="color: #818cf8; margin: 5px 0;"><strong>交易量:</strong> $750M 月均</p>
+        <p style="color: #818cf8; margin: 5px 0;"><strong>NFT数量:</strong> 25M+</p>
+        <p style="color: #818cf8; margin: 5px 0;"><strong>平台费:</strong> 2.5%</p>
+      </div>
+      <a href="dapp-browser.html" style="color: #00d9ff; text-decoration: none;">在DApp中打开 →</a>
+    </div>
+
+    <!-- Blur -->
+    <div class="card" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(30, 58, 138, 0.1)); border-left: 4px solid #5eefff;">
+      <div style="font-size: 2.5rem; margin-bottom: 15px;">⚡</div>
+      <h4 style="color: #5eefff; margin-bottom: 10px;">Blur</h4>
+      <p style="color: #a5b4fc; margin-bottom: 15px;">高速NFT交易所，零平台费，日均交易$1.2B</p>
+      <div style="background: rgba(0, 217, 255, 0.1); padding: 15px; border-radius: 4px; margin-bottom: 15px;">
+        <p style="color: #818cf8; margin: 5px 0;"><strong>日交易量:</strong> $1.2B</p>
+        <p style="color: #818cf8; margin: 5px 0;"><strong>用户数:</strong> 300K+</p>
+        <p style="color: #818cf8; margin: 5px 0;"><strong>平台费:</strong> 0%</p>
+      </div>
+      <a href="dapp-browser.html" style="color: #5eefff; text-decoration: none;">在DApp中打开 →</a>
+    </div>
+
+    <!-- Magic Eden -->
+    <div class="card" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(30, 58, 138, 0.1)); border-left: 4px solid #00ff88;">
+      <div style="font-size: 2.5rem; margin-bottom: 15px;">✨</div>
+      <h4 style="color: #00ff88; margin-bottom: 10px;">Magic Eden</h4>
+      <p style="color: #a5b4fc; margin-bottom: 15px;">Solana生态最大NFT市场，$450M月交易量</p>
+      <div style="background: rgba(0, 217, 255, 0.1); padding: 15px; border-radius: 4px; margin-bottom: 15px;">
+        <p style="color: #818cf8; margin: 5px 0;"><strong>月交易量:</strong> $450M</p>
+        <p style="color: #818cf8; margin: 5px 0;"><strong>NFT数量:</strong> 5M+</p>
+        <p style="color: #818cf8; margin: 5px 0;"><strong>平台费:</strong> 2%</p>
+      </div>
+      <a href="dapp-browser.html" style="color: #00ff88; text-decoration: none;">在DApp中打开 →</a>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 40px;">
+    <a href="dapp-browser.html" class="btn" style="background: linear-gradient(135deg, #00d9ff, #1e3a8a); border: none; padding: 15px 40px; font-size: 1rem; font-weight: 600;">
+      <i class="fas fa-image" style="margin-right: 10px;"></i>
+      在DApp浏览器中浏览所有NFT市场
+    </a>
+  </div>
+</section>
+
+<!-- ========== Web3 核心功能接入 ========== -->
+<section class="section" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(30, 58, 138, 0.05));">
+  <h2 class="section-title">🔗 Web3 核心功能快速接入</h2>
+
+  <div class="grid grid-3" style="max-width: 1200px; margin: 0 auto;">
+    <!-- 钱包连接 -->
+    <div class="card" style="background: rgba(15, 23, 41, 0.8); border: 2px solid rgba(0, 217, 255, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 217, 255, 0.2)';'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.2)';'">
+      <div style="background: linear-gradient(135deg, #00d9ff, #1e3a8a); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);">
+        <i class="fas fa-wallet"></i>
+      </div>
+      <h3 style="color: #00d9ff; margin-bottom: 15px;">Web3钱包</h3>
+      <p style="color: #a5b4fc; line-height: 1.6; margin-bottom: 20px;">非托管自主钱包，支持6大公链，一键连接所有DApp</p>
+      <ul style="color: #818cf8; font-size: 0.9rem; margin-bottom: 20px;">
+        <li>✓ 私钥自管理</li>
+        <li>✓ 硬件钱包支持</li>
+        <li>✓ 多签方案</li>
+      </ul>
+      <a href="wallet.html" class="btn" style="width: 100%; background: linear-gradient(135deg, #00d9ff, #3b5998); border: none; border-radius: 4px;">进入钱包 →</a>
+    </div>
+
+    <!-- DApp浏览器 -->
+    <div class="card" style="background: rgba(15, 23, 41, 0.8); border: 2px solid rgba(0, 217, 255, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 217, 255, 0.2)';'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.2)';'">
+      <div style="background: linear-gradient(135deg, #5eefff, #1e3a8a); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; box-shadow: 0 10px 30px rgba(94, 239, 255, 0.3);">
+        <i class="fas fa-cubes"></i>
+      </div>
+      <h3 style="color: #5eefff; margin-bottom: 15px;">DApp浏览器</h3>
+      <p style="color: #a5b4fc; line-height: 1.6; margin-bottom: 20px;">DeFi + NFT + GameFi + DAO 一站式聚合</p>
+      <ul style="color: #818cf8; font-size: 0.9rem; margin-bottom: 20px;">
+        <li>✓ 50+ DApp集成</li>
+        <li>✓ 实时数据同步</li>
+        <li>✓ 智能搜索</li>
+      </ul>
+      <a href="dapp-browser.html" class="btn" style="width: 100%; background: linear-gradient(135deg, #5eefff, #3b5998); border: none; border-radius: 4px;">浏览DApp →</a>
+    </div>
+
+    <!-- 多链管理 -->
+    <div class="card" style="background: rgba(15, 23, 41, 0.8); border: 2px solid rgba(0, 217, 255, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 217, 255, 0.2)';'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.2)';'">
+      <div style="background: linear-gradient(135deg, #00ff88, #1e3a8a); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);">
+        <i class="fas fa-link"></i>
+      </div>
+      <h3 style="color: #00ff88; margin-bottom: 15px;">多链管理</h3>
+      <p style="color: #a5b4fc; line-height: 1.6; margin-bottom: 20px;">跨链桥接、资产聚合、一站式多链管理</p>
+      <ul style="color: #818cf8; font-size: 0.9rem; margin-bottom: 20px;">
+        <li>✓ 4大桥协议</li>
+        <li>✓ 实时兑换价格</li>
+        <li>✓ 低费用转账</li>
+      </ul>
+      <a href="multi-chain.html" class="btn" style="width: 100%; background: linear-gradient(135deg, #00ff88, #3b5998); border: none; border-radius: 4px;">跨链转账 →</a>
+    </div>
+
+    <!-- DAO治理 -->
+    <div class="card" style="background: rgba(15, 23, 41, 0.8); border: 2px solid rgba(0, 217, 255, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 217, 255, 0.2)';'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.2)';'">
+      <div style="background: linear-gradient(135deg, #ffd700, #1e3a8a); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);">
+        <i class="fas fa-vote-yea"></i>
+      </div>
+      <h3 style="color: #ffd700; margin-bottom: 15px;">DAO治理</h3>
+      <p style="color: #a5b4fc; line-height: 1.6; margin-bottom: 20px;">社区投票、资金管理、权力下放</p>
+      <ul style="color: #818cf8; font-size: 0.9rem; margin-bottom: 20px;">
+        <li>✓ 民主投票</li>
+        <li>✓ 提案机制</li>
+        <li>✓ 生态基金</li>
+      </ul>
+      <a href="dao-governance.html" class="btn" style="width: 100%; background: linear-gradient(135deg, #ffd700, #3b5998); border: none; border-radius: 4px;">参与治理 →</a>
+    </div>
+
+    <!-- 生态孵化 -->
+    <div class="card" style="background: rgba(15, 23, 41, 0.8); border: 2px solid rgba(0, 217, 255, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 217, 255, 0.2)';'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.2)';'">
+      <div style="background: linear-gradient(135deg, #ff6b9d, #1e3a8a); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);">
+        <i class="fas fa-rocket"></i>
+      </div>
+      <h3 style="color: #ff6b9d; margin-bottom: 15px;">生态孵化</h3>
+      <p style="color: #a5b4fc; line-height: 1.6; margin-bottom: 20px;">项目孵化、空投、赏金、收益激励</p>
+      <ul style="color: #818cf8; font-size: 0.9rem; margin-bottom: 20px;">
+        <li>✓ 100+项目</li>
+        <li>✓ 10亿空投</li>
+        <li>✓ 赏金计划</li>
+      </ul>
+      <a href="startup.html" class="btn" style="width: 100%; background: linear-gradient(135deg, #ff6b9d, #3b5998); border: none; border-radius: 4px;">发现机会 →</a>
+    </div>
+
+    <!-- 白皮书 -->
+    <div class="card" style="background: rgba(15, 23, 41, 0.8); border: 2px solid rgba(0, 217, 255, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 217, 255, 0.2)';'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.2)';'">
+      <div style="background: linear-gradient(135deg, #00d9ff, #1e3a8a); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);">
+        <i class="fas fa-file-alt"></i>
+      </div>
+      <h3 style="color: #00d9ff; margin-bottom: 15px;">技术文档</h3>
+      <p style="color: #a5b4fc; line-height: 1.6; margin-bottom: 20px;">白皮书、Tokenomics、发展路线图</p>
+      <ul style="color: #818cf8; font-size: 0.9rem; margin-bottom: 20px;">
+        <li>✓ 完整白皮书</li>
+        <li>✓ Token分配</li>
+        <li>✓ 路线图</li>
+      </ul>
+      <a href="whitepaper.html" class="btn" style="width: 100%; background: linear-gradient(135deg, #00d9ff, #3b5998); border: none; border-radius: 4px;">阅读文档 →</a>
+    </div>
+  </div>
+
+  <!-- 快速开始指南 -->
+  <div style="text-align: center; margin-top: 60px; max-width: 900px; margin-left: auto; margin-right: auto;">
+    <h3 style="color: #00d9ff; font-size: 1.4rem; margin-bottom: 30px;">🚀 3步快速开始</h3>
+    <div class="grid grid-3">
+      <div style="text-align: center;">
+        <div style="background: linear-gradient(135deg, #00d9ff, #1e3a8a); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5rem; color: white; font-weight: bold;">1</div>
+        <h4 style="color: #a5b4fc; margin-bottom: 10px;">安装钱包</h4>
+        <p style="color: #818cf8; font-size: 0.9rem;">安装MetaMask或其他Web3钱包插件</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="background: linear-gradient(135deg, #5eefff, #1e3a8a); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5rem; color: white; font-weight: bold;">2</div>
+        <h4 style="color: #a5b4fc; margin-bottom: 10px;">连接钱包</h4>
+        <p style="color: #818cf8; font-size: 0.9rem;">点击"连接钱包"，选择您的钱包完成连接</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="background: linear-gradient(135deg, #00ff88, #1e3a8a); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5rem; color: white; font-weight: bold;">3</div>
+        <h4 style="color: #a5b4fc; margin-bottom: 10px;">开启Web3</h4>
+        <p style="color: #818cf8; font-size: 0.9rem;">享受DeFi交易、NFT收藏、DAO治理等功能</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 全球地区布局 -->
+<section class="section">
+  <h2 class="section-title">全球地区布局</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <h3>🇨🇳 中国</h3>
+      <p>国内主要矿山基地，拥有多个大型开采项目和先进的冶炼基地。</p>
+    </div>
+    <div class="card">
+      <h3>🇵🇪 秘鲁</h3>
+      <p>南美最大的矿业项目所在地，世界级铜矿和贵金属资源。</p>
+    </div>
+    <div class="card">
+      <h3>🇦🇺 澳洲</h3>
+      <p>大洋洲地区重要的矿产资源开发基地，技术领先。</p>
+    </div>
+    <div class="card">
+      <h3>🇰🇿 哈萨克斯坦</h3>
+      <p>中亚战略性矿业投资与合作项目，资源丰富。</p>
+    </div>
+    <div class="card">
+      <h3>🇨🇦 加拿大</h3>
+      <p>北美地区矿业项目，技术与管理水平国际一流。</p>
+    </div>
+    <div class="card">
+      <h3>🌍 非洲</h3>
+      <p>黄金、铜等矿产资源丰富地区，开采运营基地。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 股票信息 -->
+<section class="section" style="background: var(--light-bg);">
+  <h2 class="section-title">股票信息</h2>
+  <div class="grid grid-2">
+    <div style="background: white; padding: 30px; border-radius: 10px;">
+      <div id="stock-chart" style="width: 100%; height: 400px;"></div>
+    </div>
+    <div style="padding: 30px;">
+      <h3 style="color: var(--primary-color); margin-bottom: 30px;">主要指标</h3>
+      <div style="margin-bottom: 30px;">
+        <p><strong>当前股价:</strong> ¥25.50</p>
+        <p><strong>总市值:</strong> 5,890亿元</p>
+        <p><strong>PE比率:</strong> 12.5</p>
+      </div>
+      <div style="margin-bottom: 30px;">
+        <p><strong>营收增长:</strong> +15.2%</p>
+        <p><strong>净利润</strong>+22.8%</p>
+        <p><strong>分红收益率:</strong> 3.8%</p>
+      </div>
+      <a href="stock.html" class="btn">查看详细</a>
+    </div>
+  </div>
+</section>
+
+<!-- 最新新闻 -->
+<section class="section">
+  <h2 class="section-title">最新新闻</h2>
+  <div class="grid grid-3" id="news-list">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1581093458791-9d15482442f6" alt="news" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+      <h4>集团发布2025年战略规划</h4>
+      <p>致力于成为全球最具竞争力的矿业企业，加大新能源矿产投资。</p>
+      <small style="color: #999;">2026-03-05</small>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1537908904737-13fc52b8b1d5" alt="news" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+      <h4>秘鲁铜矿项目产能创新高</h4>
+      <p>年产铜精矿超过50万吨，成为南美最大的铜矿生产基地。</p>
+      <small style="color: #999;">2026-03-01</small>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994" alt="news" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+      <h4>绿色矿业转型取得重要成果</h4>
+      <p>实现碳中和目标，获得国际可持续发展认证，成为行业标杆。</p>
+      <small style="color: #999;">2026-02-28</small>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 40px;">
+    <a href="news.html" class="btn">查看全部新闻</a>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>关于我们</h4>
+      <p><a href="about.html" style="color: inherit; text-decoration: none;">公司简介</a></p>
+      <p><a href="history.html" style="color: inherit; text-decoration: none;">发展历程</a></p>
+      <p><a href="culture.html" style="color: inherit; text-decoration: none;">企业文化</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>业务领域</h4>
+      <p><a href="projects.html" style="color: inherit; text-decoration: none;">投资项目</a></p>
+      <p><a href="mines.html" style="color: inherit; text-decoration: none;">全球矿山</a></p>
+      <p><a href="global-operations.html" style="color: inherit; text-decoration: none;">全球运营</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>投资者关系</h4>
+      <p><a href="investors.html" style="color: inherit; text-decoration: none;">投资者中心</a></p>
+      <p><a href="reports.html" style="color: inherit; text-decoration: none;">财务报告</a></p>
+      <p><a href="stock.html" style="color: inherit; text-decoration: none;">股票信息</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>联系我们</h4>
+      <p>Email: investor@zijin.com</p>
+      <p>Tel: +86-591-8387-6666</p>
+      <p>地址: 中国福建</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 紫金矿业集团有限公司. 版权所有 | <a href="#" style="color: inherit;">隐私政策</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+
+<!-- 聊天小部件 -->
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = "https://fdc.dot01ly.cfd/chat/widget.js";
+        g.async = true;
+        g.onload = function() {
+            window.ChatWidget.init({
+                channelId: "eb014caa630448bea94d49449b154b4a"
+            });
+        };
+        s.parentNode.insertBefore(g, s);
+    })(document, "script");
+</script>
+
+</body>
+</html>

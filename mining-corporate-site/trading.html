@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>交易中心 - 紫金矿业集团</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/market-api.js"></script>
+  <style>
+    /* iOS风格交易页面 */
+    body {
+      background: var(--light-bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+    }
+
+    .trading-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 20px;
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .trading-header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0 0 10px 0;
+    }
+
+    .trading-header p {
+      margin: 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* 行情卡片 */
+    .market-card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .market-card:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .market-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .market-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .market-time {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .price-display {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 15px;
+    }
+
+    .current-price {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .price-change {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .price-change.up {
+      color: #28a745;
+    }
+
+    .price-change.down {
+      color: #dc3545;
+    }
+
+    .price-change-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .price-change-percent {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    /* 行情图表 */
+    .chart-container {
+      background: rgba(212, 175, 55, 0.05);
+      border-radius: 15px;
+      padding: 15px;
+      margin: 15px 0;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .chart-placeholder {
+      text-align: center;
+    }
+
+    /* 交易信息展示 */
+    .trade-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .info-item {
+      background: var(--light-bg);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .info-label {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* 交易按钮 */
+    .trade-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 20px;
+      position: sticky;
+      bottom: 0;
+      background: white;
+      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
+      border-radius: 20px 20px 0 0;
+    }
+
+    .btn-trade {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-buy {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+    }
+
+    .btn-buy:active {
+      transform: translateY(2px);
+      opacity: 0.9;
+    }
+
+    .btn-sell {
+      background: linear-gradient(135deg, #dc3545, #fd7e14);
+      color: white;
+    }
+
+    .btn-sell:active {
+      transform: translateY(2px);
+      opacity: 0.9;
+    }
+
+    /* 标签页 */
+    .tab-container {
+      display: flex;
+      gap: 10px;
+      padding: 15px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-item {
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: var(--light-bg);
+      color: #666;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-item.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    /* 排行榜 */
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background: white;
+      border-radius: 15px;
+      margin: 10px 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .ranking-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), #c4a030);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    .ranking-info {
+      flex: 1;
+    }
+
+    .ranking-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 3px;
+    }
+
+    .ranking-desc {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .ranking-value {
+      text-align: right;
+    }
+
+    .ranking-price {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .ranking-change {
+      font-size: 12px;
+      color: #28a745;
+    }
+
+    /* 消息提醒 */
+    .alert-banner {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+      border-left: 4px solid var(--accent-color);
+      padding: 12px 15px;
+      margin: 15px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alert-icon {
+      color: var(--accent-color);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .alert-text {
+      font-size: 13px;
+      color: var(--primary-color);
+    }
+
+    /* iOS风格安全区域 */
+    @supports (padding: max(0px)) {
+      .trading-header {
+        padding-top: max(20px, env(safe-area-inset-top));
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+      }
+      
+      .trade-buttons {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+      }
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 480px) {
+      .market-card {
+        margin: 10px;
+        padding: 15px;
+      }
+
+      .current-price {
+        font-size: 28px;
+      }
+
+      .trade-buttons {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .btn-trade {
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+    }
+
+    /* 动画效果 */
+    @keyframes pulse-price {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .price-updating {
+      animation: pulse-price 0.6s ease-in-out;
+    }
+
+    /* 非触控设备的hover效果 */
+    @media (hover: hover) {
+      .market-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      }
+
+      .tab-item:hover {
+        background: rgba(212, 175, 55, 0.15);
+      }
+
+      .btn-trade:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 交易头部 -->
+<div class="trading-header">
+  <h1>交易中心</h1>
+  <p>实时行情 • 24小时更新</p>
+</div>
+
+<!-- 消息提醒 -->
+<div class="alert-banner">
+  <i class="fas fa-info-circle alert-icon"></i>
+  <span class="alert-text">国际时差：伦敦休市，纽约市场开放中</span>
+</div>
+
+<!-- 行情标签 -->
+<div class="tab-container">
+  <div class="tab-item active">全部</div>
+  <div class="tab-item">贵金属</div>
+  <div class="tab-item">有色金属</div>
+  <div class="tab-item">能源</div>
+  <div class="tab-item">稀土</div>
+</div>
+
+<!-- 黄金行情 -->
+<div class="market-card" data-market="gold">
+  <div class="market-header">
+    <div>
+      <div class="market-name">国际现货黄金</div>
+      <div class="market-time">伦敦现货 • 实时价格</div>
+    </div>
+  </div>
+  
+  <div class="price-display">
+    <div class="current-price">2045.80</div>
+    <div class="price-change up">
+      <i class="fas fa-arrow-up"></i>
+      <div>
+        <div class="price-change-value">+15.40</div>
+        <div class="price-change-percent">+0.76%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-placeholder">
+      <i class="fas fa-chart-line" style="font-size: 32px; opacity: 0.3; margin-bottom: 10px; display: block;"></i>
+      <span>近24小时走势图</span>
+    </div>
+  </div>
+
+  <div class="trade-info">
+    <div class="info-item">
+      <div class="info-label">今日最高</div>
+      <div class="info-value">2048.50</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">今日最低</div>
+      <div class="info-value">2032.10</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">开盘价</div>
+      <div class="info-value">2030.40</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">成交量</div>
+      <div class="info-value">2.5M</div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 8px; margin-top: 15px;">
+    <a href="gold.html" class="btn btn-secondary" style="flex: 1; font-size: 12px; text-decoration: none;">
+      <i class="fas fa-chart-area" style="margin-right: 5px;"></i>
+      查看详情
+    </a>
+    <a href="https://www.zjijt.com" target="_blank" class="btn" style="flex: 1; font-size: 12px; text-decoration: none;">
+      <i class="fas fa-arrow-down" style="margin-right: 5px;"></i>
+      买入
+    </a>
+  </div>
+</div>
+
+<!-- 白银行情 -->
+<div class="market-card" data-market="silver">
+  <div class="market-header">
+    <div>
+      <div class="market-name">国际现货白银</div>
+      <div class="market-time">纽约COMEX • 实时价格</div>
+    </div>
+  </div>
+  
+  <div class="price-display">
+    <div class="current-price">24.52</div>
+    <div class="price-change down">
+      <i class="fas fa-arrow-down"></i>
+      <div>
+        <div class="price-change-value">-0.28</div>
+        <div class="price-change-percent">-1.13%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-placeholder">
+      <i class="fas fa-chart-line" style="font-size: 32px; opacity: 0.3; margin-bottom: 10px; display: block;"></i>
+      <span>近24小时走势图</span>
+    </div>
+  </div>
+
+  <div class="trade-info">
+    <div class="info-item">
+      <div class="info-label">今日最高</div>
+      <div class="info-value">25.10</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">今日最低</div>
+      <div class="info-value">24.30</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">开盘价</div>
+      <div class="info-value">24.80</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">成交量</div>
+      <div class="info-value">18.2M</div>
+    </div>
+  </div>
+</div>
+
+<!-- 铜行情 -->
+<div class="market-card" data-market="copper">
+  <div class="market-header">
+    <div>
+      <div class="market-name">伦敦金属交易所铜</div>
+      <div class="market-time">LME • 实时价格</div>
+    </div>
+  </div>
+  
+  <div class="price-display">
+    <div class="current-price">9285.50</div>
+    <div class="price-change up">
+      <i class="fas fa-arrow-up"></i>
+      <div>
+        <div class="price-change-value">+125.75</div>
+        <div class="price-change-percent">+1.37%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-placeholder">
+      <i class="fas fa-chart-line" style="font-size: 32px; opacity: 0.3; margin-bottom: 10px; display: block;"></i>
+      <span>近24小时走势图</span>
+    </div>
+  </div>
+
+  <div class="trade-info">
+    <div class="info-item">
+      <div class="info-label">今日最高</div>
+      <div class="info-value">9315.25</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">今日最低</div>
+      <div class="info-value">9180.00</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">开盘价</div>
+      <div class="info-value">9159.75</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">成交量</div>
+      <div class="info-value">1.2M</div>
+    </div>
+  </div>
+</div>
+
+<!-- 锂矿行情 -->
+<div class="market-card" data-market="lithium">
+  <div class="market-header">
+    <div>
+      <div class="market-name">碳酸锂现货价格</div>
+      <div class="market-time">中国 • 实时价格</div>
+    </div>
+  </div>
+  
+  <div class="price-display">
+    <div class="current-price">185000</div>
+    <div class="price-change up">
+      <i class="fas fa-arrow-up"></i>
+      <div>
+        <div class="price-change-value">+2500</div>
+        <div class="price-change-percent">+1.37%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-placeholder">
+      <i class="fas fa-chart-line" style="font-size: 32px; opacity: 0.3; margin-bottom: 10px; display: block;"></i>
+      <span>近24小时走势图</span>
+    </div>
+  </div>
+
+  <div class="trade-info">
+    <div class="info-item">
+      <div class="info-label">今日最高</div>
+      <div class="info-value">186500</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">今日最低</div>
+      <div class="info-value">180000</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">开盘价</div>
+      <div class="info-value">182500</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">成交量</div>
+      <div class="info-value">850吨</div>
+    </div>
+  </div>
+</div>
+
+<!-- 排行榜标题 -->
+<div style="padding: 25px 15px 15px; color: var(--primary-color); font-weight: 600;">
+  <i class="fas fa-crown" style="color: var(--accent-color); margin-right: 8px;"></i>
+  今日涨幅排行
+</div>
+
+<!-- 排行榜 -->
+<div class="ranking-item">
+  <div class="ranking-number" style="background: linear-gradient(135deg, #ffd700, #ffed4e);">🥇</div>
+  <div class="ranking-info">
+    <div class="ranking-name">钯金</div>
+    <div class="ranking-desc">工业金属 • 贵金属</div>
+  </div>
+  <div class="ranking-value">
+    <div class="ranking-price">1265.40</div>
+    <div class="ranking-change">↑ +3.25%</div>
+  </div>
+</div>
+
+<div class="ranking-item">
+  <div class="ranking-number" style="background: linear-gradient(135deg, #c0c0c0, #e8e8e8);">🥈</div>
+  <div class="ranking-info">
+    <div class="ranking-name">铂金</div>
+    <div class="ranking-desc">工业金属 • 贵金属</div>
+  </div>
+  <div class="ranking-value">
+    <div class="ranking-price">968.75</div>
+    <div class="ranking-change">↑ +2.15%</div>
+  </div>
+</div>
+
+<div class="ranking-item">
+  <div class="ranking-number" style="background: linear-gradient(135deg, #cd7f32, #d4905a);">🥉</div>
+  <div class="ranking-info">
+    <div class="ranking-name">铜</div>
+    <div class="ranking-desc">基本金属 • 能源</div>
+  </div>
+  <div class="ranking-value">
+    <div class="ranking-price">9285.50</div>
+    <div class="ranking-change">↑ +1.37%</div>
+  </div>
+</div>
+
+<!-- 下方间距 -->
+<div style="height: 100px;"></div>
+
+<!-- 交易按钮 -->
+<div class="trade-buttons">
+  <a href="https://www.zjijt.com" target="_blank" class="btn-trade btn-buy">
+    <i class="fas fa-arrow-down"></i>
+    买入
+  </a>
+  <a href="https://www.zjkytz.com" target="_blank" class="btn-trade btn-sell">
+    <i class="fas fa-arrow-up"></i>
+    卖出
+  </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // 标签切换交互
+  document.querySelectorAll('.tab-item').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // 监听市场数据更新事件
+  document.addEventListener('marketDataUpdate', function(event) {
+    const { quotes } = event.detail;
+    
+    // 更新UI中的价格数据
+    Object.keys(quotes).forEach(market => {
+      const quote = quotes[market];
+      const card = document.querySelector(`[data-market="${market}"]`);
+      
+      if (card) {
+        // 更新价格
+        const priceEl = card.querySelector('.current-price');
+        if (priceEl) {
+          priceEl.textContent = quote.price.toLocaleString('zh-CN');
+          priceEl.classList.add('price-updating');
+          setTimeout(() => priceEl.classList.remove('price-updating'), 600);
+        }
+        
+        // 更新涨跌
+        const changeEl = card.querySelector('.price-change');
+        if (changeEl) {
+          const direction = quote.change >= 0 ? 'up' : 'down';
+          changeEl.className = `price-change ${direction}`;
+          changeEl.innerHTML = `
+            <i class="fas fa-arrow-${direction === 'up' ? 'up' : 'down'}"></i>
+            <div>
+              <div class="price-change-value">${quote.change > 0 ? '+' : ''}${quote.change}</div>
+              <div class="price-change-percent">${quote.changePercent > 0 ? '+' : ''}${quote.changePercent}%</div>
+            </div>
+          `;
+        }
+      }
+    });
+  });
+
+  // 页面加载完成后的初始化
+  document.addEventListener('DOMContentLoaded', function() {
+    // 模拟价格更新动画
+    setInterval(() => {
+      document.querySelectorAll('.current-price').forEach(price => {
+        price.classList.add('price-updating');
+        setTimeout(() => price.classList.remove('price-updating'), 600);
+      });
+    }, 5000);
+
+    // 输出API状态
+    setTimeout(() => {
+      console.log('[交易平台] API状态:', window.marketAPI.getStatus());
+    }, 1000);
+  });
+</script>
+
+</body>
+</html>

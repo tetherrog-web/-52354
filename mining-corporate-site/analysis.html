@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>市场分析 - 紫金矿业集团</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f3f0 0%, #fff9f6 100%);
+    }
+
+    .analysis-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 40px 20px;
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .analysis-header h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .analysis-subtitle {
+      font-size: 15px;
+      opacity: 0.95;
+      margin: 0;
+    }
+
+    /* 分析卡片 */
+    .analysis-item {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      border-left: 5px solid var(--accent-color);
+      transition: all 0.3s ease;
+    }
+
+    .analysis-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .analysis-item.bullish {
+      border-left-color: #28a745;
+    }
+
+    .analysis-item.bearish {
+      border-left-color: #dc3545;
+    }
+
+    .analysis-item.neutral {
+      border-left-color: #0066cc;
+    }
+
+    .analysis-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .analysis-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .analyst-badge {
+      display: inline-block;
+      background: var(--light-bg);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      color: #999;
+      font-weight: 600;
+      margin-left: auto;
+    }
+
+    .analysis-content {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .analysis-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid #eee;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .confidence-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .confidence-level {
+      width: 100px;
+      height: 6px;
+      background: #eee;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #28a745, #20c997);
+      border-radius: 3px;
+    }
+
+    .update-time {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #999;
+    }
+
+    /* 指标卡片 */
+    .indicator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .indicator-card {
+      background: white;
+      border-radius: 15px;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    .indicator-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 10px 0;
+    }
+
+    .indicator-label {
+      font-size: 12px;
+      color: #999;
+      font-weight: 500;
+    }
+
+    .indicator-status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 8px;
+      background: var(--light-bg);
+      color: #666;
+    }
+
+    /* 对比分析 */
+    .comparison-section {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .comparison-item {
+      padding: 20px;
+      background: var(--light-bg);
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .comparison-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+    }
+
+    .comparison-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 8px;
+    }
+
+    .comparison-desc {
+      font-size: 12px;
+      color: #999;
+    }
+
+    /* 观点分布 */
+    .sentiment-chart {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      align-items: center;
+      height: 40px;
+    }
+
+    .sentiment-bar {
+      flex: 1;
+      height: 100%;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .sentiment-bullish {
+      background: linear-gradient(90deg, #28a745, #20c997);
+    }
+
+    .sentiment-neutral {
+      background: linear-gradient(90deg, #0066cc, #0099ff);
+    }
+
+    .sentiment-bearish {
+      background: linear-gradient(90deg, #dc3545, #fd7e14);
+    }
+
+    /* 分析师排行 */
+    .analyst-list {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .analyst-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      transition: all 0.3s ease;
+    }
+
+    .analyst-item:last-child {
+      border-bottom: none;
+    }
+
+    .analyst-item:hover {
+      background: var(--light-bg);
+      border-radius: 10px;
+    }
+
+    .analyst-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), #f0d56f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    .analyst-info {
+      flex: 1;
+    }
+
+    .analyst-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 4px;
+    }
+
+    .analyst-title {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .analyst-score {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .analyst-rating {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    .star-rating {
+      color: var(--accent-color);
+      font-size: 12px;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .analysis-header h1 {
+        font-size: 28px;
+      }
+
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .indicator-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<header>
+  <div class="navbar-container">
+    <a href="index.html" class="logo">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=50&h=50&fit=crop" alt="logo">
+      <span class="logo-text">紫金矿业集团</span>
+    </a>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="about.html">关于我们</a>
+      <a href="projects.html">投资项目</a>
+      <a href="trading.html">交易中心</a>
+      <a href="analysis.html">市场分析</a>
+      <a href="news.html">新闻中心</a>
+      <a href="contacts.html">联系我们</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 顶部banner -->
+<div class="analysis-header">
+  <h1>
+    <i class="fas fa-brain" style="margin-right: 12px; color: var(--accent-color);"></i>
+    市场分析
+  </h1>
+  <p class="analysis-subtitle">专业分析 • 投研团队 • 实时洞察</p>
+</div>
+
+<!-- 市场观点 -->
+<div style="padding: 20px;">
+  <div style="font-size: 18px; font-weight: 700; color: var(--primary-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+    <i class="fas fa-comments" style="color: var(--accent-color);"></i>
+    市场观点分布
+  </div>
+
+  <div style="background: white; border-radius: 20px; padding: 25px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); margin-bottom: 20px;">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+      <div style="text-align: center;">
+        <div style="font-size: 28px; font-weight: 700; color: #28a745; margin-bottom: 5px;">58%</div>
+        <div style="font-size: 13px; color: #999; font-weight: 500;">看涨观点</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 28px; font-weight: 700; color: #0066cc; margin-bottom: 5px;">28%</div>
+        <div style="font-size: 13px; color: #999; font-weight: 500;">中立观点</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 28px; font-weight: 700; color: #dc3545; margin-bottom: 5px;">14%</div>
+        <div style="font-size: 13px; color: #999; font-weight: 500;">看跌观点</div>
+      </div>
+    </div>
+
+    <div class="sentiment-chart">
+      <div class="sentiment-bar sentiment-bullish">看涨 58%</div>
+      <div class="sentiment-bar sentiment-neutral">中立 28%</div>
+      <div class="sentiment-bar sentiment-bearish">看跌 14%</div>
+    </div>
+  </div>
+</div>
+
+<!-- 关键指标 -->
+<div style="padding: 0 20px;">
+  <div style="font-size: 18px; font-weight: 700; color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+    <i class="fas fa-gauge-high" style="color: var(--accent-color);"></i>
+    关键技术指标
+  </div>
+
+  <div class="indicator-grid">
+    <div class="indicator-card">
+      <div class="indicator-label">RSI指数</div>
+      <div class="indicator-value">68.5</div>
+      <div class="indicator-status" style="background: #d4f5e8; color: #28a745;">强势</div>
+    </div>
+    <div class="indicator-card">
+      <div class="indicator-label">MACD信号</div>
+      <div class="indicator-value">+2.3</div>
+      <div class="indicator-status" style="background: #d4f5e8; color: #28a745;">看多</div>
+    </div>
+    <div class="indicator-card">
+      <div class="indicator-label">均线排列</div>
+      <div class="indicator-value">多头</div>
+      <div class="indicator-status" style="background: #d4f5e8; color: #28a745;">强势</div>
+    </div>
+    <div class="indicator-card">
+      <div class="indicator-label">布林带位置</div>
+      <div class="indicator-value">上轨</div>
+      <div class="indicator-status" style="background: #fff3cd; color: #856404;">过热</div>
+    </div>
+  </div>
+</div>
+
+<!-- 专业分析 -->
+<div style="padding: 0 20px; margin-top: 20px;">
+  <div style="font-size: 18px; font-weight: 700; color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+    <i class="fas fa-microscope" style="color: var(--accent-color);"></i>
+    专业分析观点
+  </div>
+
+  <div class="analysis-item bullish">
+    <div class="analysis-title">
+      <span style="color: #28a745;">📈</span>
+      黄金强势突破2040关键位置
+      <span class="analyst-badge">黄洋 • 商品分析师</span>
+    </div>
+    <div class="analysis-content">
+      国际现货黄金成功突破2040美元关键阻力位，建立强势上升趋势。技术面显示，月线级别上黄金已突破历史高点，日线均线呈多头排列。地缘政治风险升温和美联储降息预期共同推动避险资金流入，短期目标看向2050-2060美元区间。
+    </div>
+    <div class="analysis-footer">
+      <div class="confidence-bar">
+        <span>信心度:</span>
+        <div class="confidence-level">
+          <div class="confidence-fill" style="width: 85%;"></div>
+        </div>
+        <span>85%</span>
+      </div>
+      <div class="update-time">
+        <i class="fas fa-clock"></i>
+        2026/03/05 09:30
+      </div>
+    </div>
+  </div>
+
+  <div class="analysis-item bullish">
+    <div class="analysis-title">
+      <span style="color: #28a745;">📊</span>
+      铜价维持强势格局
+      <span class="analyst-badge">李明 • 基本面分析</span>
+    </div>
+    <div class="analysis-content">
+      铜价在基本面支撑下维持强势，全球经济复苏预期、美联储降息预期和新能源需求增长共同作用。LME铜库存持续走低，支撑价格在高位运行。继续看好铜价在9200-9400美元区间的震荡上行。中长期来看，能源转型推动的锂、钴等新兴需求将成为支撑。
+    </div>
+    <div class="analysis-footer">
+      <div class="confidence-bar">
+        <span>信心度:</span>
+        <div class="confidence-level">
+          <div class="confidence-fill" style="width: 76%;"></div>
+        </div>
+        <span>76%</span>
+      </div>
+      <div class="update-time">
+        <i class="fas fa-clock"></i>
+        2026/03/05 08:45
+      </div>
+    </div>
+  </div>
+
+  <div class="analysis-item neutral">
+    <div class="analysis-title">
+      <span style="color: #0066cc;">⚠️</span>
+      白银走势震荡，短期承压
+      <span class="analyst-badge">王军 • 技术分析师</span>
+    </div>
+    <div class="analysis-content">
+      白银在获利回吐压力下出现短期回调，日线技术指标显示超买迹象，RSI接近70水平。短期可能在24.3-24.7美元区间震荡，有效跌破24.2美元才能确认趋势转弱。中期仍看好白银因为金银比例处于历史高位，存在修复动能。
+    </div>
+    <div class="analysis-footer">
+      <div class="confidence-bar">
+        <span>信心度:</span>
+        <div class="confidence-level">
+          <div class="confidence-fill" style="width: 62%;"></div>
+        </div>
+        <span>62%</span>
+      </div>
+      <div class="update-time">
+        <i class="fas fa-clock"></i>
+        2026/03/05 08:15
+      </div>
+    </div>
+  </div>
+
+  <div class="analysis-item bullish">
+    <div class="analysis-title">
+      <span style="color: #28a745;">⚡</span>
+      锂矿景气周期开启，关注战略性布局
+      <span class="analyst-badge">张丽 • 产业分析师</span>
+    </div>
+    <div class="analysis-content">
+      全球能源转型加速，新能源车销量创新高，推动锂矿需求持续增长。我国作为全球重要的锂矿生产国和消费国，紫金矿业在锂矿领域的战略布局为长期增长奠定基础。预期碳酸锂价格将在190000-200000元区间震荡，上半年仍有向上突破的动能。
+    </div>
+    <div class="analysis-footer">
+      <div class="confidence-bar">
+        <span>信心度:</span>
+        <div class="confidence-level">
+          <div class="confidence-fill" style="width: 79%;"></div>
+        </div>
+        <span>79%</span>
+      </div>
+      <div class="update-time">
+        <i class="fas fa-clock"></i>
+        2026/03/05 07:50
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 分析师排行 -->
+<div class="analyst-list">
+  <div style="font-size: 18px; font-weight: 700; color: var(--primary-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+    <i class="fas fa-medal" style="color: var(--accent-color);"></i>
+    顶级分析师排行
+  </div>
+
+  <div class="analyst-item">
+    <div class="analyst-avatar" style="background: linear-gradient(135deg, #ffd700, #ffed4e); color: var(--primary-color);">🥇</div>
+    <div class="analyst-info">
+      <div class="analyst-name">黄洋</div>
+      <div class="analyst-title">首席商品分析师 • 12年经验</div>
+    </div>
+    <div class="analyst-score">
+      <span class="analyst-rating">8.8</span>
+      <span class="star-rating">★★★★★</span>
+    </div>
+  </div>
+
+  <div class="analyst-item">
+    <div class="analyst-avatar" style="background: linear-gradient(135deg, #c0c0c0, #e8e8e8); color: var(--primary-color);">🥈</div>
+    <div class="analyst-info">
+      <div class="analyst-name">李明</div>
+      <div class="analyst-title">基本面分析师 • 10年经验</div>
+    </div>
+    <div class="analyst-score">
+      <span class="analyst-rating">8.5</span>
+      <span class="star-rating">★★★★☆</span>
+    </div>
+  </div>
+
+  <div class="analyst-item">
+    <div class="analyst-avatar" style="background: linear-gradient(135deg, #cd7f32, #d4905a); color: white;">🥉</div>
+    <div class="analyst-info">
+      <div class="analyst-name">张丽</div>
+      <div class="analyst-title">产业分析师 • 8年经验</div>
+    </div>
+    <div class="analyst-score">
+      <span class="analyst-rating">8.2</span>
+      <span class="star-rating">★★★★☆</span>
+    </div>
+  </div>
+
+  <div class="analyst-item">
+    <div class="analyst-avatar">王</div>
+    <div class="analyst-info">
+      <div class="analyst-name">王军</div>
+      <div class="analyst-title">技术分析师 • 9年经验</div>
+    </div>
+    <div class="analyst-score">
+      <span class="analyst-rating">7.9</span>
+      <span class="star-rating">★★★★☆</span>
+    </div>
+  </div>
+</div>
+
+<!-- 底部footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>分析资源</h4>
+      <p><a href="#" style="color: inherit; text-decoration: none;">研报下载</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>市场信息</h4>
+      <p><a href="data-center.html" style="color: inherit; text-decoration: none;">数据中心</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>联系我们</h4>
+      <p>Email: analysis@zijin.com</p>
+    </div>
+    <div class="footer-section">
+      <h4>快速链接</h4>
+      <p><a href="index.html" style="color: inherit; text-decoration: none;">首页</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 紫金矿业集团有限公司. 版权所有
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/market-api.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>黄金行情 - 紫金矿业集团</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/market-api.js"></script>
+  <style>
+    body {
+      background: var(--light-bg);
+    }
+
+    .gold-header {
+      background: linear-gradient(135deg, #d4af37, #f0d56f);
+      color: var(--primary-color);
+      padding: 20px;
+      border-radius: 0 0 25px 25px;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .gold-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gold-header .subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .price-card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .price-section {
+      flex: 1;
+    }
+
+    .price-label {
+      font-size: 13px;
+      color: #999;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .price-value {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--primary-color);
+      margin-bottom: 8px;
+    }
+
+    .currency-unit {
+      font-size: 18px;
+      color: #999;
+      font-weight: 500;
+    }
+
+    .change-section {
+      display: flex;
+      gap: 20px;
+    }
+
+    .change-item {
+      text-align: right;
+    }
+
+    .change-value {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .change-up {
+      color: #28a745;
+    }
+
+    .change-down {
+      color: #dc3545;
+    }
+
+    .change-label {
+      font-size: 12px;
+      color: #999;
+    }
+
+    /* 行情条 */
+    .quote-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 15px 0;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+
+    .quote-item {
+      text-align: center;
+    }
+
+    .quote-label {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 5px;
+    }
+
+    .quote-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* 标签页 */
+    .chart-tabs {
+      display: flex;
+      gap: 10px;
+      padding: 15px 20px;
+      background: white;
+      border-radius: 15px;
+      margin: 20px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .chart-tab {
+      padding: 8px 16px;
+      background: var(--light-bg);
+      border: none;
+      border-radius: 20px;
+      color: #666;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .chart-tab.active {
+      background: linear-gradient(135deg, var(--accent-color), #f0d56f);
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    /* 图表容器 */
+    .chart-container {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 300px;
+      margin: 20px 0;
+    }
+
+    /* 新闻与分析 */
+    .analysis-card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin: 15px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid var(--accent-color);
+    }
+
+    .analysis-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .analysis-content {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .analysis-time {
+      font-size: 12px;
+      color: #999;
+      margin-top: 10px;
+    }
+
+    /* 预警通知 */
+    .alert-box {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+      border-left: 4px solid var(--accent-color);
+      padding: 15px 20px;
+      margin: 15px 20px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .alert-icon {
+      font-size: 20px;
+      color: var(--accent-color);
+      flex-shrink: 0;
+    }
+
+    .alert-text {
+      font-size: 13px;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+
+    /* 交易建议 */
+    .advice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .advice-card {
+      background: white;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .advice-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .advice-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+
+    .advice-desc {
+      font-size: 12px;
+      color: #999;
+    }
+
+    /* 对比表格 */
+    .compare-table {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin: 20px;
+      overflow: hidden;
+    }
+
+    .table-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+
+    .compare-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .compare-item:last-child {
+      border-bottom: none;
+    }
+
+    .compare-label {
+      font-size: 13px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .compare-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* 底部按钮 */
+    .trading-footer {
+      padding: 20px;
+      background: white;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-gold {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .btn-buy-gold {
+      background: linear-gradient(135deg, #28a745, #20c997);
+    }
+
+    .btn-buy-gold:active {
+      transform: translateY(2px);
+      opacity: 0.9;
+    }
+
+    .btn-sell-gold {
+      background: linear-gradient(135deg, #dc3545, #fd7e14);
+    }
+
+    .btn-sell-gold:active {
+      transform: translateY(2px);
+      opacity: 0.9;
+    }
+
+    /* 响应式 */
+    @media (max-width: 480px) {
+      .price-value {
+        font-size: 36px;
+      }
+
+      .chart-wrapper {
+        height: 250px;
+      }
+
+      .advice-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 黄金行情头部 -->
+<div class="gold-header">
+  <h1>
+    <i class="fas fa-crown" style="color: #d4af37;"></i>
+    黄金行情
+  </h1>
+  <p class="subtitle">国际现货黄金 • 伦敦现货 • 实时更新</p>
+</div>
+
+<!-- 主要价格 -->
+<div class="price-card">
+  <div class="main-price">
+    <div class="price-section">
+      <div class="price-label">现价</div>
+      <div style="display: flex; align-items: baseline; gap: 5px;">
+        <div class="price-value">2045.80</div>
+        <div class="currency-unit">USD/oz</div>
+      </div>
+    </div>
+    <div class="change-section">
+      <div class="change-item">
+        <div class="change-value change-up">+15.40</div>
+        <div class="change-label">绝对变化</div>
+      </div>
+      <div class="change-item">
+        <div class="change-value change-up">+0.76%</div>
+        <div class="change-label">百分比</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-bar">
+    <div class="quote-item">
+      <div class="quote-label">今日最高</div>
+      <div class="quote-value">2048.50</div>
+    </div>
+    <div class="quote-item">
+      <div class="quote-label">今日最低</div>
+      <div class="quote-value">2032.10</div>
+    </div>
+    <div class="quote-item">
+      <div class="quote-label">开盘价</div>
+      <div class="quote-value">2030.40</div>
+    </div>
+    <div class="quote-item">
+      <div class="quote-label">成交量</div>
+      <div class="quote-value">2.5M</div>
+    </div>
+  </div>
+</div>
+
+<!-- 预警通知 -->
+<div class="alert-box">
+  <i class="fas fa-bell alert-icon"></i>
+  <span class="alert-text">国际现货黄金突破2040美元，创近期新高！</span>
+</div>
+
+<!-- 图表选项卡 -->
+<div class="chart-tabs">
+  <button class="chart-tab active" onclick="switchChart('1d')">1日</button>
+  <button class="chart-tab" onclick="switchChart('1w')">1周</button>
+  <button class="chart-tab" onclick="switchChart('1m')">1月</button>
+  <button class="chart-tab" onclick="switchChart('3m')">3月</button>
+  <button class="chart-tab" onclick="switchChart('1y')">1年</button>
+  <button class="chart-tab" onclick="switchChart('all')">全部</button>
+</div>
+
+<!-- 图表容器 -->
+<div class="chart-container">
+  <h3 style="font-size: 16px; font-weight: 600; color: var(--primary-color); margin-bottom: 15px;">
+    <i class="fas fa-chart-line" style="margin-right: 8px; color: var(--accent-color);"></i>
+    价格走势
+  </h3>
+  <div class="chart-wrapper">
+    <canvas id="goldChart"></canvas>
+  </div>
+</div>
+
+<!-- 交易建议 -->
+<div style="padding: 20px;">
+  <h3 style="font-size: 16px; font-weight: 600; color: var(--primary-color); margin-bottom: 15px;">
+    <i class="fas fa-lightbulb" style="margin-right: 8px; color: var(--accent-color);"></i>
+    交易信号
+  </h3>
+  <div class="advice-grid">
+    <div class="advice-card">
+      <div class="advice-icon" style="color: #28a745;">📈</div>
+      <div class="advice-title">强势上升</div>
+      <div class="advice-desc">短期看多</div>
+    </div>
+    <div class="advice-card">
+      <div class="advice-icon" style="color: #0066cc;">⚡</div>
+      <div class="advice-title">关键位置</div>
+      <div class="advice-desc">2050美元</div>
+    </div>
+    <div class="advice-card">
+      <div class="advice-icon" style="color: #ffc107;">⚠️</div>
+      <div class="advice-title">阻力位</div>
+      <div class="advice-desc">2048.50</div>
+    </div>
+    <div class="advice-card">
+      <div class="advice-icon" style="color: #17a2b8;">📊</div>
+      <div class="advice-title">支撑位</div>
+      <div class="advice-desc">2032.10</div>
+    </div>
+  </div>
+</div>
+
+<!-- 市场分析 -->
+<div style="padding: 0 20px;">
+  <h3 style="font-size: 16px; font-weight: 600; color: var(--primary-color); margin-bottom: 15px;">
+    <i class="fas fa-newspaper" style="margin-right: 8px; color: var(--accent-color);"></i>
+    市场分析
+  </h3>
+
+  <div class="analysis-card">
+    <div class="analysis-title">
+      <i class="fas fa-check-circle" style="color: #28a745;"></i>
+      黄金上涨驱动力分析
+    </div>
+    <div class="analysis-content">
+      国际地缘政治局势升温，美联储降息预期增强，推动避险资金流入黄金市场。技术面看，黄金成功突破2040关键阻力，建立强势上升趋势。短期目标上看2050美元。
+    </div>
+    <div class="analysis-time">更新于 2026/03/05 09:30</div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-title">
+      <i class="fas fa-chart-bar" style="color: #0066cc;"></i>
+      技术面展望
+    </div>
+    <div class="analysis-content">
+      4小时K线显示连续上涨，平均线呈多头排列。在日线级别上，黄金已突破月线高点，布林带上轨位置在2055美元附近，具有较强吸引力。建议关注2045-2055区间的强势突破。
+    </div>
+    <div class="analysis-time">更新于 2026/03/05 09:15</div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-title">
+      <i class="fas fa-globe" style="color: #fd7e14;"></i>
+      全球经济影响
+    </div>
+    <div class="analysis-content">
+      美国通胀数据公布，高于预期，推升避险需求。欧洲央行会议前夕，市场观望态度浓厚。新兴市场流动性充足，全球黄金ETF持仓创新高，显示长期看多。
+    </div>
+    <div class="analysis-time">更新于 2026/03/05 08:45</div>
+  </div>
+</div>
+
+<!-- 对比数据 -->
+<div class="compare-table">
+  <div class="table-title">
+    <i class="fas fa-balance-scale" style="margin-right: 8px; color: var(--accent-color);"></i>
+    与其他贵金属对比
+  </div>
+  <div class="compare-item">
+    <span class="compare-label">白银 (XAG/USD)</span>
+    <span class="compare-value">24.52 ↓ -1.13%</span>
+  </div>
+  <div class="compare-item">
+    <span class="compare-label">铂金 (Platinum)</span>
+    <span class="compare-value">968.75 ↑ +2.15%</span>
+  </div>
+  <div class="compare-item">
+    <span class="compare-label">钯金 (Palladium)</span>
+    <span class="compare-value">1265.40 ↑ +3.25%</span>
+  </div>
+  <div class="compare-item">
+    <span class="compare-label">美元指数 (DXY)</span>
+    <span class="compare-value">104.25 ↓ -0.35%</span>
+  </div>
+</div>
+
+<!-- 下方间距 -->
+<div style="height: 100px;"></div>
+
+<!-- 底部交易按钮 -->
+<div class="trading-footer">
+  <a href="https://www.zjijt.com" target="_blank" class="btn-gold btn-buy-gold">
+    <i class="fas fa-arrow-down"></i>
+    买入黄金
+  </a>
+  <a href="https://www.zjkytz.com" target="_blank" class="btn-gold btn-sell-gold">
+    <i class="fas fa-arrow-up"></i>
+    卖出黄金
+  </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/market-api.js"></script>
+<script>
+  // 创建黄金价格走势图
+  function initGoldChart() {
+    const ctx = document.getElementById('goldChart');
+    if (!ctx) return;
+
+    // 生成示例数据
+    const labels = [];
+    const data = [];
+    let basePrice = 2030;
+
+    for (let i = 0; i < 24; i++) {
+      labels.push(i + ':00');
+      basePrice += (Math.random() - 0.4) * 3;
+      data.push(basePrice.toFixed(2));
+    }
+
+    window.goldChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '黄金价格 (USD/oz)',
+          data: data,
+          borderColor: '#d4af37',
+          backgroundColor: 'rgba(212, 175, 55, 0.1)',
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
+          pointBackgroundColor: '#d4af37',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointHoverRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              color: '#666',
+              font: { size: 12 }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            titleFont: { size: 14 },
+            bodyFont: { size: 13 },
+            borderColor: '#d4af37',
+            borderWidth: 1
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            grid: { color: '#eee' },
+            ticks: { color: '#999' }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: '#999' }
+          }
+        }
+      }
+    });
+  }
+
+  // 切换图表时间周期
+  function switchChart(period) {
+    document.querySelectorAll('.chart-tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    console.log('切换到:', period);
+    
+    // 这里可以根据period加载不同的数据
+    if (window.goldChart) {
+      window.goldChart.destroy();
+      initGoldChart();
+    }
+  }
+
+  // 页面加载完成后初始化
+  document.addEventListener('DOMContentLoaded', function() {
+    initGoldChart();
+
+    // 监听市场数据更新
+    document.addEventListener('marketDataUpdate', function(event) {
+      const { quotes } = event.detail;
+      if (quotes.gold) {
+        const gold = quotes.gold;
+        // 更新价格
+        document.querySelector('.price-value').textContent = gold.price.toFixed(2);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

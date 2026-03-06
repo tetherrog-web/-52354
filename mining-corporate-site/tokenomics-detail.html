@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokenomics 代币经济模型 | GOLD</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<!-- Web3 3D区块链背景 -->
+<div class="blockchain-bg">
+  <div class="blockchain-cube" style="top: 10%; left: 5%;"><div class="cube-face">◆</div></div>
+  <div class="blockchain-cube" style="top: 20%; right: 8%; animation-delay: 5s;"><div class="cube-face">◈</div></div>
+</div>
+
+<!-- 导航栏 -->
+<header>
+  <div class="navbar-container">
+    <a href="index.html" class="logo">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=50&h=50&fit=crop" alt="logo">
+      <span class="logo-text">GOLD Tokenomics</span>
+    </a>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="whitepaper.html">白皮书</a>
+      <a href="tokenomics-detail.html" class="active">Tokenomics</a>
+      <a href="roadmap-detail.html">Roadmap</a>
+      <button class="wallet-btn" onclick="connectWallet()">
+        <i class="fas fa-wallet" style="margin-right: 8px;"></i>
+        连接钱包
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="banner">
+  <div class="banner-content">
+    <h1 style="animation: neon-flicker 2s infinite;">💎 GOLD Tokenomics</h1>
+    <p>透明、可持续的代币经济设计</p>
+  </div>
+</section>
+
+<!-- Tokenomics 概览 -->
+<section class="section">
+  <h2 class="section-title">代币基本参数</h2>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto 60px;">
+    <div class="param-card">
+      <div class="param-label">合约地址</div>
+      <div class="param-value" style="font-size: 0.9rem; word-break: break-all;">0x1234...5678</div>
+      <button onclick="copyToClipboard('0x12345678')" style="background: rgba(0,217,255,0.2); color: #00d9ff; border: none; padding: 8px 16px; border-radius: 4px; margin-top: 10px; cursor: pointer;">
+        <i class="fas fa-copy" style="margin-right: 5px;"></i>复制
+      </button>
+    </div>
+    <div class="param-card">
+      <div class="param-label">代币名称</div>
+      <div class="param-value">GOLD</div>
+      <p style="color: #818cf8; font-size: 0.85rem; margin-top: 10px;">ERC-20 标准</p>
+    </div>
+    <div class="param-card">
+      <div class="param-label">总供应量</div>
+      <div class="param-value">1,000,000,000</div>
+      <p style="color: #818cf8; font-size: 0.85rem; margin-top: 10px;">永不增加</p>
+    </div>
+    <div class="param-card">
+      <div class="param-label">初始价格</div>
+      <div class="param-value">$0.05</div>
+      <p style="color: #818cf8; font-size: 0.85rem; margin-top: 10px;">市价浮动</p>
+    </div>
+    <div class="param-card">
+      <div class="param-label">交易手续费</div>
+      <div class="param-value">2%</div>
+      <p style="color: #818cf8; font-size: 0.85rem; margin-top: 10px;">销毁+奖励</p>
+    </div>
+    <div class="param-card">
+      <div class="param-label">小数位数</div>
+      <div class="param-value">18</div>
+      <p style="color: #818cf8; font-size: 0.85rem; margin-top: 10px;">标准精度</p>
+    </div>
+  </div>
+</section>
+
+<!-- 代币分配 -->
+<section class="section" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(30, 58, 138, 0.05));">
+  <h2 class="section-title">代币分配结构</h2>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1400px; margin: 0 auto; align-items: center;">
+    <!-- 图表 -->
+    <div id="allocation-pie-chart" style="height: 450px;"></div>
+    
+    <!-- 详细数据 -->
+    <div>
+      <h3 style="color: #00d9ff; margin-bottom: 30px;">分配详情</h3>
+      
+      <div class="allocation-item">
+        <div class="allocation-header">
+          <div class="allocation-color" style="background: #00d9ff;"></div>
+          <div>
+            <h5 style="color: #00d9ff; margin: 0;">团队与投资者</h5>
+            <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">第一阶段募资</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="color: #00d9ff; font-weight: 600;">20%</div>
+            <div style="color: #818cf8; font-size: 0.9rem;">200M GOLD</div>
+          </div>
+        </div>
+        <div class="allocation-details">
+          <p>• 核心团队成员: 100M (4年线性释放)</p>
+          <p>• 早期投资者: 100M (2年线性释放)</p>
+          <p>• 释放周期: 2026-2030</p>
+        </div>
+      </div>
+
+      <div class="allocation-item">
+        <div class="allocation-header">
+          <div class="allocation-color" style="background: #3b5998;"></div>
+          <div>
+            <h5 style="color: #3b5998; margin: 0;">生态基金</h5>
+            <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">项目发展储备</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="color: #3b5998; font-weight: 600;">30%</div>
+            <div style="color: #818cf8; font-size: 0.9rem;">300M GOLD</div>
+          </div>
+        </div>
+        <div class="allocation-details">
+          <p>• 合作与整合: 150M (DAO控制)</p>
+          <p>• 开发奖励: 100M (持续激励)</p>
+          <p>• 储备金: 50M (应急使用)</p>
+        </div>
+      </div>
+
+      <div class="allocation-item">
+        <div class="allocation-header">
+          <div class="allocation-color" style="background: #5eefff;"></div>
+          <div>
+            <h5 style="color: #5eefff; margin: 0;">社区激励</h5>
+            <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">挖矿与推荐</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="color: #5eefff; font-weight: 600;">25%</div>
+            <div style="color: #818cf8; font-size: 0.9rem;">250M GOLD</div>
+          </div>
+        </div>
+        <div class="allocation-details">
+          <p>• 流动性挖矿: 150M (年化奖励)</p>
+          <p>• 推荐激励: 60M (社区贡献)</p>
+          <p>• 空投与活动: 40M (持续进行)</p>
+        </div>
+      </div>
+
+      <div class="allocation-item">
+        <div class="allocation-header">
+          <div class="allocation-color" style="background: #1e3a8a;"></div>
+          <div>
+            <h5 style="color: #1e3a8a; margin: 0;">流动性池</h5>
+            <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">DEX深度</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="color: #1e3a8a; font-weight: 600;">15%</div>
+            <div style="color: #818cf8; font-size: 0.9rem;">150M GOLD</div>
+          </div>
+        </div>
+        <div class="allocation-details">
+          <p>• Uniswap LP: 80M (永久锁定)</p>
+          <p>• Curve LP: 40M (永久锁定)</p>
+          <p>• 交易所: 30M (流动性保证)</p>
+        </div>
+      </div>
+
+      <div class="allocation-item">
+        <div class="allocation-header">
+          <div class="allocation-color" style="background: #00a8cc;"></div>
+          <div>
+            <h5 style="color: #00a8cc; margin: 0;">金库储备</h5>
+            <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">多签钱包</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="color: #00a8cc; font-weight: 600;">10%</div>
+            <div style="color: #818cf8; font-size: 0.9rem;">100M GOLD</div>
+          </div>
+        </div>
+        <div class="allocation-details">
+          <p>• 市场稳定: 60M (价格支撑)</p>
+          <p>• 应急储备: 40M (风险防控)</p>
+          <p>• 管理权: DAO投票控制</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 释放时间表 -->
+<section class="section">
+  <h2 class="section-title">代币释放计划</h2>
+  
+  <div style="max-width: 1000px; margin: 0 auto;">
+    <div id="vesting-chart" style="height: 400px; margin-bottom: 40px;"></div>
+    
+    <h4 style="color: #5eefff; margin-bottom: 20px;">释放详情</h4>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+      <div class="vesting-card">
+        <h5 style="color: #00d9ff;"><i class="fas fa-users" style="margin-right: 8px;"></i>团队代币</h5>
+        <p style="color: #a5b4fc;">锁定期: 6 个月</p>
+        <p style="color: #818cf8;">释放周期: 48 个月线性</p>
+        <p style="color: #818cf8;">月度释放: ~2.08M GOLD</p>
+        <p style="margin-top: 15px; color: #818cf8; border-top: 1px solid rgba(0,217,255,0.2); padding-top: 15px;">
+          已释放: 0 GOLD<br>
+          待释放: 100M GOLD
+        </p>
+      </div>
+      
+      <div class="vesting-card">
+        <h5 style="color: #5eefff;"><i class="fas fa-chart-line" style="margin-right: 8px;"></i>生态基金</h5>
+        <p style="color: #a5b4fc;">锁定期: 即时</p>
+        <p style="color: #818cf8;">释放周期: DAO控制</p>
+        <p style="color: #818cf8;">月度释放: 按需分配</p>
+        <p style="margin-top: 15px; color: #818cf8; border-top: 1px solid rgba(0,217,255,0.2); padding-top: 15px;">
+          已释放: 50M GOLD<br>
+          待释放: 250M GOLD
+        </p>
+      </div>
+
+      <div class="vesting-card">
+        <h5 style="color: #00a8cc;"><i class="fas fa-gift" style="margin-right: 8px;"></i>社区奖励</h5>
+        <p style="color: #a5b4fc;">锁定期: 无</p>
+        <p style="color: #818cf8;">释放周期: 持续分配</p>
+        <p style="color: #818cf8;">月度释放: 按参与度</p>
+        <p style="margin-top: 15px; color: #818cf8; border-top: 1px solid rgba(0,217,255,0.2); padding-top: 15px;">
+          已释放: 100M GOLD<br>
+          待释放: 150M GOLD
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 激励机制 -->
+<section class="section" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(30, 58, 138, 0.05));">
+  <h2 class="section-title">激励机制详解</h2>
+  
+  <div style="max-width: 1400px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 40px;">
+      
+      <div class="incentive-detailed-card">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">🌾</div>
+        <h4 style="color: #00d9ff; margin-bottom: 15px;">流动性挖矿</h4>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">在 DEX 提供流动性，获得 LP 代币奖励。</p>
+        
+        <h6 style="color: #5eefff; margin-top: 20px; margin-bottom: 10px;">支持的交易对：</h6>
+        <ul style="color: #818cf8; padding-left: 20px;">
+          <li>GOLD/USDT - 年化 300%</li>
+          <li>GOLD/ETH - 年化 250%</li>
+          <li>GOLD/USDC - 年化 280%</li>
+        </ul>
+
+        <h6 style="color: #5eefff; margin-top: 15px; margin-bottom: 10px;">奖励方式：</h6>
+        <p style="color: #818cf8; font-size: 0.9rem;">每周快照，按比例分配奖励代币</p>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 即时领取（无锁定）</p>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 可复合（自动再投）</p>
+      </div>
+
+      <div class="incentive-detailed-card">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">🔒</div>
+        <h4 style="color: #5eefff; margin-bottom: 15px;">质押贷款</h4>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">锁定 GOLD 获得稳定收益和治理权。</p>
+        
+        <h6 style="color: #5eefff; margin-top: 20px; margin-bottom: 10px;">收益等级：</h6>
+        <ul style="color: #818cf8; padding-left: 20px;">
+          <li>30天锁定 - APY 15%</li>
+          <li>90天锁定 - APY 25%</li>
+          <li>1年锁定 - APY 40%</li>
+        </ul>
+
+        <h6 style="color: #5eefff; margin-top: 15px; margin-bottom: 10px;">额外权益：</h6>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 投票权重提升33-100%</p>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 每月空投优先权</p>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 治理奖励 0.5-2%</p>
+      </div>
+
+      <div class="incentive-detailed-card">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">👥</div>
+        <h4 style="color: #00a8cc; margin-bottom: 15px;">推荐奖励</h4>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">邀请朋友加入，赚取推荐佣金。</p>
+        
+        <h6 style="color: #5eefff; margin-top: 20px; margin-bottom: 10px;">佣金结构：</h6>
+        <ul style="color: #818cf8; padding-left: 20px;">
+          <li>一级推荐 - 购买金额5%</li>
+          <li>二级推荐 - 购买金额2%</li>
+          <li>三级推荐 - 购买金额1%</li>
+        </ul>
+
+        <h6 style="color: #5eefff; margin-top: 15px; margin-bottom: 10px;">特殊激励：</h6>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 邀请10人以上获Silver身份</p>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 邀请50人以上获Gold身份</p>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 社群排行榜额外奖励</p>
+      </div>
+
+      <div class="incentive-detailed-card">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">🎮</div>
+        <h4 style="color: #00d9ff; margin-bottom: 15px;">任务赚币</h4>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">完成社区任务，赚取 GOLD 奖励。</p>
+        
+        <h6 style="color: #5eefff; margin-top: 20px; margin-bottom: 10px;">任务类型：</h6>
+        <ul style="color: #818cf8; padding-left: 20px;">
+          <li>关注社交媒体 - 10 GOLD</li>
+          <li>分享文章 - 20 GOLD</li>
+          <li>社区投票 - 50 GOLD</li>
+          <li>创建内容 - 100-500 GOLD</li>
+        </ul>
+
+        <h6 style="color: #5eefff; margin-top: 15px; margin-bottom: 10px;">每月总额：</h6>
+        <p style="color: #818cf8; font-size: 0.9rem;">💰 100,000 GOLD 任务奖励池</p>
+      </div>
+
+      <div class="incentive-detailed-card">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">🎁</div>
+        <h4 style="color: #5eefff; margin-bottom: 15px;">空投计划</h4>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">定期给持有者和活跃用户空投代币。</p>
+        
+        <h6 style="color: #5eefff; margin-top: 20px; margin-bottom: 10px;">空投轮次：</h6>
+        <ul style="color: #818cf8; padding-left: 20px;">
+          <li>月度空投 - 5M GOLD</li>
+          <li>季度特别 - 10M GOLD</li>
+          <li>里程碑庆祝 - 20-50M GOLD</li>
+        </ul>
+
+        <h6 style="color: #5eefff; margin-top: 15px; margin-bottom: 10px;">领取条件：</h6>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 持有≥100 GOLD的地址</p>
+        <p style="color: #818cf8; font-size: 0.9rem;">✓ 30天内有交易记录</p>
+      </div>
+
+      <div class="incentive-detailed-card">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">📈</div>
+        <h4 style="color: #00a8cc; margin-bottom: 15px;">交易挖矿</h4>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">参与交易，交易费用的20%返还。</p>
+        
+        <h6 style="color: #5eefff; margin-top: 20px; margin-bottom: 10px;">返现比例：</h6>
+        <ul style="color: #818cf8; padding-left: 20px;">
+          <li>普通用户 - 0.4% 返现</li>
+          <li>VIP用户 - 0.6% 返现</li>
+          <li>高级VIP - 0.8% 返现</li>
+        </ul>
+
+        <h6 style="color: #5eefff; margin-top: 15px; margin-bottom: 10px;">每月聚合：</h6>
+        <p style="color: #818cf8; font-size: 0.9rem;">🏆 30M GOLD 交易奖励</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 价格机制 -->
+<section class="section">
+  <h2 class="section-title">价格稳定与市场机制</h2>
+  
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <h4 style="color: #5eefff; margin-bottom: 25px;">3大稳定机制</h4>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+      <div class="mechanism-card">
+        <h5 style="color: #00d9ff; margin-bottom: 15px;">
+          <i class="fas fa-water" style="margin-right: 8px;"></i>
+          流动性深度
+        </h5>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">
+          通过大规模的流动性池，降低滑点，稳定价格。
+        </p>
+        <div style="background: rgba(0,217,255,0.1); padding: 15px; border-radius: 4px;">
+          <p style="color: #818cf8; font-size: 0.95rem;">
+            <strong>• Uniswap:</strong> $80M (双边锁定)<br>
+            <strong>• Curve:</strong> $40M (稳定币对)<br>
+            <strong>• 散户LP:</strong> $50M<br>
+            <strong>合计深度:</strong> $170M
+          </p>
+        </div>
+      </div>
+
+      <div class="mechanism-card">
+        <h5 style="color: #5eefff; margin-bottom: 15px;">
+          <i class="fas fa-vault" style="margin-right: 8px;"></i>
+          金库缓冲
+        </h5>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">
+          金库储备100M GOLD，应对价格波动。
+        </p>
+        <div style="background: rgba(0,217,255,0.1); padding: 15px; border-radius: 4px;">
+          <p style="color: #818cf8; font-size: 0.95rem;">
+            <strong>• 价格支撑:</strong> 60M GOLD<br>
+            <strong>• 应急储备:</strong> 40M GOLD<br>
+            <strong>• 管理权:</strong> DAO投票<br>
+            <strong>• 多签控制:</strong> 5/9安全
+          </p>
+        </div>
+      </div>
+
+      <div class="mechanism-card">
+        <h5 style="color: #00a8cc; margin-bottom: 15px;">
+          <i class="fas fa-chart-bar" style="margin-right: 8px;"></i>
+          参数调整
+        </h5>
+        <p style="color: #a5b4fc; margin-bottom: 15px;">
+          通过DAO治理动态调整激励参数。
+        </p>
+        <div style="background: rgba(0,217,255,0.1); padding: 15px; border-radius: 4px;">
+          <p style="color: #818cf8; font-size: 0.95rem;">
+            <strong>• 手续费率:</strong> 0.5-5%<br>
+            <strong>• 挖矿奖励:</strong> 自适应<br>
+            <strong>• 流动性激励:</strong> 按需调整<br>
+            <strong>• 投票周期:</strong> 7天
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h4 style="color: #5eefff; margin-top: 40px; margin-bottom: 20px;">市场指标Dashboard</h4>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+      <div class="metric-box">
+        <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">当前价格</p>
+        <div style="color: #00d9ff; font-size: 1.8rem; font-weight: 600; margin-top: 10px;">$0.0842</div>
+        <p style="color: #28a745; font-size: 0.85rem;">↑ +68.4% (相比初始价)</p>
+      </div>
+      <div class="metric-box">
+        <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">市值</p>
+        <div style="color: #5eefff; font-size: 1.8rem; font-weight: 600; margin-top: 10px;">$84.2M</div>
+        <p style="color: #818cf8; font-size: 0.85rem;">Top 200 (CMC)</p>
+      </div>
+      <div class="metric-box">
+        <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">流动性</p>
+        <div style="color: #00a8cc; font-size: 1.8rem; font-weight: 600; margin-top: 10px;">$170M</div>
+        <p style="color: #818cf8; font-size: 0.85rem;">24h交易量: $12.3M</p>
+      </div>
+      <div class="metric-box">
+        <p style="color: #818cf8; margin: 0; font-size: 0.9rem;">持有者</p>
+        <div style="color: #00d9ff; font-size: 1.8rem; font-weight: 600; margin-top: 10px;">156,482</div>
+        <p style="color: #818cf8; font-size: 0.85rem;">环比增长: +12%</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 安全与透明度 -->
+<section class="section" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(30, 58, 138, 0.05));">
+  <h2 class="section-title">安全与透明度</h2>
+  
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+      <div class="security-card">
+        <h5 style="color: #00d9ff; margin-bottom: 15px;">
+          <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>
+          智能合约安全
+        </h5>
+        <ul style="color: #a5b4fc; padding-left: 20px;">
+          <li>✅ OpenZeppelin 审计通过</li>
+          <li>✅ Certik 评分 98/100</li>
+          <li>✅ 代码开源(GitHub)</li>
+          <li>✅ 多签钱包控制(5/9)</li>
+          <li>✅ 升级代理(时间锁)</li>
+        </ul>
+      </div>
+
+      <div class="security-card">
+        <h5 style="color: #5eefff; margin-bottom: 15px;">
+          <i class="fas fa-eye" style="margin-right: 8px;"></i>
+          链上透明度
+        </h5>
+        <ul style="color: #a5b4fc; padding-left: 20px;">
+          <li>✅ 实时链上监控</li>
+          <li>✅ 定期资产证明(PoR)</li>
+          <li>✅ 钱包余额公开</li>
+          <li>✅ 交易历史可查</li>
+          <li>✅ 月度财务报告</li>
+        </ul>
+      </div>
+
+      <div class="security-card">
+        <h5 style="color: #00a8cc; margin-bottom: 15px;">
+          <i class="fas fa-bug" style="margin-right: 8px;"></i>
+          持续监测
+        </h5>
+        <ul style="color: #a5b4fc; padding-left: 20px;">
+          <li>✅ 24/7 安全监控</li>
+          <li>✅ Bug Bounty 计划</li>
+          <li>✅ 已发放奖励: $125K</li>
+          <li>✅ 社区审查员</li>
+          <li>✅ 应急响应小组</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 底部CTA -->
+<section class="section" style="text-align: center; background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(30, 58, 138, 0.1));">
+  <h2 style="color: #00d9ff; margin-bottom: 30px;">了解更多</h2>
+  <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+    <a href="whitepaper.html" class="btn" style="background: linear-gradient(135deg, #00d9ff, #1e3a8a); border: none; text-decoration: none; padding: 12px 30px;">
+      <i class="fas fa-file-pdf" style="margin-right: 8px;"></i>
+      阅读白皮书
+    </a>
+    <a href="roadmap-detail.html" class="btn" style="background: rgba(0,217,255,0.2); border: 2px solid #00d9ff; color: #00d9ff; text-decoration: none; padding: 12px 30px;">
+      <i class="fas fa-road" style="margin-right: 8px;"></i>
+      查看Roadmap
+    </a>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer style="background: rgba(10, 15, 31, 0.95); border-top: 1px solid rgba(0, 217, 255, 0.2); margin-top: 60px;">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4 style="color: #00d9ff;">GOLD</h4>
+      <p><a href="index.html" style="color: inherit; text-decoration: none;">首页</a></p>
+      <p><a href="whitepaper.html" style="color: inherit; text-decoration: none;">白皮书</a></p>
+    </div>
+    <div class="footer-section">
+      <h4 style="color: #00d9ff;">资源</h4>
+      <p><a href="tokenomics-detail.html" style="color: inherit; text-decoration: none;">Tokenomics</a></p>
+      <p><a href="#" style="color: inherit; text-decoration: none;">教程</a></p>
+    </div>
+    <div class="footer-section">
+      <h4 style="color: #00d9ff;">社交</h4>
+      <p><a href="#" style="color: inherit; text-decoration: none;"><i class="fab fa-twitter"></i> Twitter</a></p>
+      <p><a href="#" style="color: inherit; text-decoration: none;"><i class="fab fa-discord"></i> Discord</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 GOLD. All Rights Reserved
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  initTokenomicsCharts();
+});
+
+function initTokenomicsCharts() {
+  // 分配饼图
+  const allocationChart = document.getElementById('allocation-pie-chart');
+  if (allocationChart) {
+    const option = {
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'item',
+        backgroundColor: 'rgba(10, 15, 31, 0.9)',
+        borderColor: '#00d9ff',
+        textStyle: { color: '#00d9ff' }
+      },
+      legend: {
+        orient: 'vertical',
+        right: '10%',
+        textStyle: { color: '#a5b4fc' },
+        itemGap: 15
+      },
+      series: [{
+        name: '代币分配',
+        type: 'pie',
+        radius: ['35%', '65%'],
+        data: [
+          { value: 200, name: '团队与投资者 20%', itemStyle: { color: '#00d9ff' } },
+          { value: 300, name: '生态基金 30%', itemStyle: { color: '#3b5998' } },
+          { value: 250, name: '社区激励 25%', itemStyle: { color: '#5eefff' } },
+          { value: 150, name: '流动性池 15%', itemStyle: { color: '#1e3a8a' } },
+          { value: 100, name: '金库储备 10%', itemStyle: { color: '#00a8cc' } }
+        ]
+      }]
+    };
+    const echartsInstance = echarts.init(allocationChart);
+    echartsInstance.setOption(option);
+    window.addEventListener('resize', () => echartsInstance.resize());
+  }
+
+  // 释放时间表
+  const vestingChart = document.getElementById('vesting-chart');
+  if (vestingChart) {
+    const option = {
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: 'rgba(10, 15, 31, 0.9)',
+        borderColor: '#00d9ff',
+        textStyle: { color: '#00d9ff' }
+      },
+      grid: { left: '10%', right: '5%', bottom: '15%', top: '10%' },
+      xAxis: {
+        type: 'category',
+        data: ['2026Q1', '2026Q2', '2026Q3', '2026Q4', '2027Q1', '2027Q2', '2027Q3', '2027Q4', '2028+'],
+        axisLine: { lineStyle: { color: 'rgba(0,217,255,0.3)' } },
+        axisLabel: { color: '#a5b4fc' }
+      },
+      yAxis: {
+        type: 'value',
+        splitLine: { lineStyle: { color: 'rgba(0,217,255,0.1)' } },
+        axisLabel: { color: '#a5b4fc' },
+        axisLine: { lineStyle: { color: 'rgba(0,217,255,0.3)' } }
+      },
+      series: [
+        {
+          name: '团队代币',
+          data: [0, 25, 50, 75, 100, 125, 150, 175, 200],
+          type: 'line',
+          smooth: true,
+          itemStyle: { color: '#00d9ff' },
+          areaStyle: { color: 'rgba(0,217,255,0.2)' }
+        },
+        {
+          name: '社区激励',
+          data: [0, 50, 100, 150, 200, 220, 235, 245, 250],
+          type: 'line',
+          smooth: true,
+          itemStyle: { color: '#5eefff' },
+          areaStyle: { color: 'rgba(94,239,255,0.2)' }
+        },
+        {
+          name: '生态基金',
+          data: [50, 100, 150, 200, 250, 270, 285, 295, 300],
+          type: 'line',
+          smooth: true,
+          itemStyle: { color: '#3b5998' },
+          areaStyle: { color: 'rgba(59,89,152,0.2)' }
+        }
+      ]
+    };
+    const echartsInstance = echarts.init(vestingChart);
+    echartsInstance.setOption(option);
+    window.addEventListener('resize', () => echartsInstance.resize());
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert('✅ 已复制到剪贴板: ' + text);
+  });
+}
+</script>
+
+</body>
+</html>

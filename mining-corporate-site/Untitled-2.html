@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOLD Web3 白皮书</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0f1f 0%, #0f1729 100%);
+      color: #cbd5e1;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.8;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+    }
+
+    /* 导航栏 */
+    .navbar {
+      background: rgba(10, 15, 31, 0.95) !important;
+      border-bottom: 2px solid rgba(0, 217, 255, 0.1) !important;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    .nav-link {
+      color: #a5b4fc !important;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: #00d9ff !important;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #00d9ff;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* 侧边栏 */
+    .whitepaper-sidebar {
+      position: fixed;
+      left: 0;
+      top: 60px;
+      width: 260px;
+      height: calc(100vh - 60px);
+      background: rgba(15, 23, 41, 0.9);
+      border-right: 2px solid rgba(0, 217, 255, 0.1);
+      padding: 30px 15px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .whitepaper-sidebar h3 {
+      color: #00d9ff;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sidebar-nav a {
+      color: #a5b4fc;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      color: #00d9ff;
+      background: rgba(0, 217, 255, 0.1);
+      border-left-color: #00d9ff;
+      transform: translateX(4px);
+    }
+
+    /* 主内容 */
+    .whitepaper-content {
+      margin-left: 260px;
+      padding: 50px 60px;
+      max-width: 1000px;
+    }
+
+    /* 响应式 */
+    @media (max-width: 992px) {
+      .whitepaper-sidebar {
+        transform: translateX(-100%);
+        width: 240px;
+        transition: transform 0.3s ease;
+      }
+
+      .whitepaper-content {
+        margin-left: 0;
+        padding: 30px 20px;
+      }
+    }
+
+    /* 部分 */
+    section {
+      margin-bottom: 80px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+      scroll-margin-top: 100px;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    section h2 {
+      color: #00d9ff;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(0, 217, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+    }
+
+    section h2 i {
+      font-size: 1.6rem;
+    }
+
+    section h3 {
+      color: #7dd3fc;
+      font-size: 1.2rem;
+      margin-top: 25px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    section p {
+      color: #cbd5e1;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    section ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    section ul li {
+      color: #cbd5e1;
+      padding: 10px 0;
+      padding-left: 28px;
+      position: relative;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+
+    section ul li:hover {
+      color: #00d9ff;
+      padding-left: 35px;
+    }
+
+    section ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #00d9ff;
+      font-size: 1.1rem;
+    }
+
+    /* 表格 */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 25px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(15, 23, 41, 0.6);
+      border: 2px solid rgba(0, 217, 255, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th {
+      background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(30, 58, 138, 0.1));
+      color: #00d9ff;
+      padding: 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid rgba(0, 217, 255, 0.2);
+    }
+
+    td {
+      color: #cbd5e1;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+    }
+
+    tr:hover td {
+      background: rgba(0, 217, 255, 0.05);
+      color: #00d9ff;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* 封面 */
+    .cover {
+      text-align: center;
+      padding: 100px 0;
+      margin-bottom: 60px;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.2), rgba(0, 217, 255, 0.05));
+      border: 2px solid rgba(0, 217, 255, 0.2);
+      border-radius: 20px;
+    }
+
+    .cover h1 {
+      font-size: 3.2rem;
+      color: #00d9ff;
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+      font-weight: 700;
+    }
+
+    .cover p {
+      font-size: 1.2rem;
+      color: #a5b4fc;
+      margin-bottom: 20px;
+    }
+
+    .cover .subtitle {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-bottom: 30px;
+    }
+
+    /* 按钮 */
+    .btn-download {
+      background: linear-gradient(135deg, #00d9ff, #1e3a8a);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 12px;
+      display: inline-block;
+    }
+
+    .btn-download:hover {
+      box-shadow: 0 0 40px rgba(0, 217, 255, 0.5);
+      transform: translateY(-2px);
+      color: white;
+      text-decoration: none;
+    }
+
+    .btn-download.secondary {
+      background: rgba(0, 217, 255, 0.1);
+      color: #00d9ff;
+      border: 2px solid rgba(0, 217, 255, 0.3);
+    }
+
+    .btn-download.secondary:hover {
+      background: rgba(0, 217, 255, 0.2);
+    }
+
+    /* 卡片 */
+    .info-card {
+      background: rgba(15, 23, 41, 0.8);
+      border: 2px solid rgba(0, 217, 255, 0.2);
+      border-radius: 10px;
+      padding: 18px;
+      margin: 12px 0;
+      transition: all 0.3s ease;
+    }
+
+    .info-card:hover {
+      border-color: rgba(0, 217, 255, 0.5);
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+    }
+
+    .info-card h4 {
+      color: #00d9ff;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .info-card p {
+      color: #cbd5e1;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    /* 页脚 */
+    footer {
+      background: rgba(10, 15, 31, 0.95);
+      border-top: 2px solid rgba(0, 217, 255, 0.1);
+      margin-top: 80px;
+      padding: 40px 0;
+    }
+
+    footer h5 {
+      color: #00d9ff;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    footer p, footer li {
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: #a5b4fc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #00d9ff;
+    }
+
+    /* 打印 */
+    @media print {
+      .navbar,
+      .whitepaper-sidebar,
+      footer {
+        display: none;
+      }
+
+      .whitepaper-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      body {
+        background: white;
+        color: black;
+      }
+    }
+
+    /* 返回顶部 */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #00d9ff, #1e3a8a);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+      z-index: 200;
+    }
+
+    #backToTop:hover {
+      box-shadow: 0 0 40px rgba(0, 217, 255, 0.5);
+      transform: translateY(-5px);
+    }
+
+    #backToTop.show {
+      display: flex;
+    }
+
+    /* 目录盒 */
+    .toc {
+      background: rgba(15, 23, 41, 0.8);
+      border: 2px solid rgba(0, 217, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 25px 0;
+    }
+
+    .toc h4 {
+      color: #00d9ff;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .toc ol {
+      list-style-position: inside;
+      padding-left: 10px;
+    }
+
+    .toc li {
+      color: #cbd5e1;
+      padding: 6px 0;
+      transition: all 0.3s ease;
+    }
+
+    /* 移动菜单按钮 */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #00d9ff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .whitepaper-sidebar {
+        transform: translateX(-100%);
+        width: 240px;
+        transition: transform 0.3s ease;
+      }
+
+      .whitepaper-sidebar.active {
+        transform: translateX(0);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .whitepaper-content {
+        margin-left: 0;
+        padding: 30px 16px;
+        max-width: 100%;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .nav-link {
+        margin: 5px 0;
+      }
+
+      .navbar-brand {
+        font-size: 1.1rem;
+      }
+
+      section h2 {
+        font-size: 1.4rem;
+      }
+
+      section h3 {
+        font-size: 1rem;
+      }
+
+      .cover h1 {
+        font-size: 2rem;
+      }
+
+      .cover p {
+        font-size: 1rem;
+      }
+
+      .btn-download {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+        margin-right: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .whitepaper-content {
+        padding: 20px 12px;
+      }
+
+      .btn-download {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
+        padding: 10px 16px;
+      }
+
+      section {
+        margin-bottom: 40px;
+      }
+
+      .cover {
+        padding: 50px 0;
+      }
+
+      .cover h1 {
+        font-size: 1.5rem;
+      }
+
+      section h2 {
+        font-size: 1.2rem;
+      }
+
+      section h3 {
+        font-size: 0.95rem;
+      }
+
+      table {
+        font-size: 0.8rem;
+      }
+
+      th, td {
+        padding: 8px;
+      }
+
+      section ul li {
+        padding: 8px 0;
+        padding-left: 22px;
+        font-size: 0.9rem;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid px-3 px-md-4">
+      <a class="navbar-brand" href="#cover">
+        <i class="fas fa-book"></i> GOLD Web3
+      </a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" type="button">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="wallet.html">Web3钱包</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="dapp-browser.html">DApp浏览器</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="dao-governance.html">DAO治理</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="projects.html">项目</a>
+          </li>
+        </ul>
+        <a href="https://web3.gabex.io" target="_blank" class="btn btn-exchange">
+          <i class="fas fa-exchange-alt"></i> 前往交易所
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 侧边栏 -->
+  <div class="whitepaper-sidebar" id="sidebar">
+    <h3><i class="fas fa-list"></i> 目录</h3>
+    <div class="sidebar-nav">
+      <a href="#cover">封面</a>
+      <a href="#overview">项目概述</a>
+      <a href="#web3">Web3变革</a>
+      <a href="#architecture">生态架构</a>
+      <a href="#wallet">Web3钱包</a>
+      <a href="#startup">Startup</a>
+      <a href="#token">GT生态</a>
+      <a href="#nft">NFT生态</a>
+      <a href="#defi">DeFi生态</a>
+      <a href="#dao">DAO治理</a>
+      <a href="#roadmap">发展路线</a>
+    </div>
+  </div>
+
+  <!-- 主内容 -->
+  <div class="whitepaper-content">
+    <section id="cover" class="cover">
+      <h1>GOLD Web3 白皮书</h1>
+      <p>打造 Web3 时代的加密生态入口</p>
+      <div class="subtitle">全链生态 | 智能聚合 | 社区驱动</div>
+      <a class="btn-download" href="#overview">开始阅读</a>
+      <button class="btn-download secondary" onclick="window.print()">
+        <i class="fas fa-download"></i> 下载 PDF
+      </button>
+    </section>
+
+    <section id="overview">
+      <h2><i class="fas fa-info-circle"></i> 一、项目概述</h2>
+      <p>GOLD Web3 是一个面向下一代互联网的综合生态平台，目标是打造 Web3 时代的加密资产管理超级入口。</p>
+    </section>
+  </div>
+
+  <!-- 返回顶部按钮 -->
+  <button id="backToTop" title="返回顶部">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- 页脚 -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5><i class="fas fa-info-circle"></i> 关于 GOLD</h5>
+          <p>GOLD Web3 是新一代加密生态入口，提供完整的 Web3 服务体验。</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5><i class="fas fa-link"></i> 快速链接</h5>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="wallet.html">Web3 钱包</a></li>
+            <li><a href="dapp-browser.html">DApp 浏览器</a></li>
+            <li><a href="dao-governance.html">DAO 治理</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5><i class="fas fa-globe"></i> 联系我们</h5>
+          <p>
+            <a href="mailto:support@gold.io">support@gold.io</a><br>
+            <a href="https://web3.gabex.io" target="_blank">
+              <i class="fas fa-exchange-alt"></i> 前往交易所
+            </a>
+          </p>
+        </div>
+      </div>
+      <hr style="border-color: rgba(0, 217, 255, 0.2); margin-top: 20px;">
+      <div style="text-align: center; color: #94a3b8; font-size: 0.85rem;">
+        <p>&copy; 2026 GOLD Web3. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // 移动菜单切换
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
+    }
+
+    // 点击链接后关闭菜单
+    const sidebarLinks = sidebar.querySelectorAll('a');
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+      });
+    });
+
+    // 返回顶部
+    const backToTopBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
